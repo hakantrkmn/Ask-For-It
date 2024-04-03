@@ -50,20 +50,6 @@ enum AuthService
             }
             else
             {
-                
-//                let db = Firestore.firestore()
-//                let test = UserInfo(username: "hava", email: "hakan@gmail.com")
-//            
-//                db.collection("users").document(Result!.user.uid).updateData(test.dictionary) { error in
-//                    if let error = error
-//                    {
-//                        completion(.failure(error))
-//                        return
-//                    }
-//                    completion(.success(true))
-//                }
-//                
-                
                 completion(.success(true))
             }
             

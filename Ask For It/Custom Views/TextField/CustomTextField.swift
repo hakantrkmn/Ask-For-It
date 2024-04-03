@@ -15,6 +15,8 @@ class CustomTextField: UITextField
         case password = "Password"
         case email = "Email"
     }
+
+    
     
     private let authFieldType : CustomTextFieldType
     

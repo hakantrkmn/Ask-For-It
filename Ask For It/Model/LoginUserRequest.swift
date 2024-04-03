@@ -14,12 +14,6 @@ struct LoginUserRequest
 }
 
 
-struct UserInfo : Codable
-{
-    let username : String
-    let email : String
-}
-
 struct JSON {
     static let encoder = JSONEncoder()
 }

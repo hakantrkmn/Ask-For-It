@@ -6,24 +6,54 @@
 //
 
 import UIKit
-
+import SnapKit
 class FeedVC: UIViewController {
 
-    override func viewDidLoad() {
+    var feedTable = UITableView()
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        view.backgroundColor = .green
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemBackground
+        feedTable.register(FeedTableCell.self, forCellReuseIdentifier: FeedTableCell.identifier)
+        feedTable.dataSource = self
+        feedTable.delegate = self
+        setupUI()
+    }
+    
+    private func setupUI()
+    {
+        view.addSubview(feedTable)
+        feedTable.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
+
+    }
+    
+    @objc func addTapped()
+    {
+        let vc = CreateQuestionVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+}
+
+extension FeedVC : UITableViewDelegate,UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableCell.identifier, for: indexPath) as? FeedTableCell else {return UITableViewCell() }
+        cell.set(temp: "hakan")
+        
+        return cell
+    }
+    
+    
 }

@@ -21,6 +21,7 @@ class AlertManager
 
 extension AlertManager
 {
+    // MARK: Auth Alerts
     public static func showInvalidEmailAlert(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "Invalid Email", message: "Please check your email")

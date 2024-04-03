@@ -31,6 +31,10 @@
 		49D8B8A02BBB02E600B49C46 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B89F2BBB02E600B49C46 /* AuthService.swift */; };
 		49D8B8A32BBB03BF00B49C46 /* RegisterUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B8A22BBB03BF00B49C46 /* RegisterUserRequest.swift */; };
 		49D8B8A52BBB195E00B49C46 /* LoginUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B8A42BBB195E00B49C46 /* LoginUserRequest.swift */; };
+		49D8B8A82BBC30B200B49C46 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B8A72BBC30B200B49C46 /* Validator.swift */; };
+		49D8B8AB2BBC3BFE00B49C46 /* FeedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B8AA2BBC3BFE00B49C46 /* FeedTableCell.swift */; };
+		49D8B8AD2BBC3F0300B49C46 /* CreateQuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B8AC2BBC3F0300B49C46 /* CreateQuestionVC.swift */; };
+		49D8B8AF2BBC41DB00B49C46 /* OptionsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D8B8AE2BBC41DB00B49C46 /* OptionsTableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +59,10 @@
 		49D8B89F2BBB02E600B49C46 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		49D8B8A22BBB03BF00B49C46 /* RegisterUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserRequest.swift; sourceTree = "<group>"; };
 		49D8B8A42BBB195E00B49C46 /* LoginUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserRequest.swift; sourceTree = "<group>"; };
+		49D8B8A72BBC30B200B49C46 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		49D8B8AA2BBC3BFE00B49C46 /* FeedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableCell.swift; sourceTree = "<group>"; };
+		49D8B8AC2BBC3F0300B49C46 /* CreateQuestionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQuestionVC.swift; sourceTree = "<group>"; };
+		49D8B8AE2BBC41DB00B49C46 /* OptionsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +100,7 @@
 		4961822B2BBAD3E90074004A /* Ask For It */ = {
 			isa = PBXGroup;
 			children = (
+				49D8B8A62BBC30AB00B49C46 /* Utility */,
 				49D8B8A12BBB03A500B49C46 /* Model */,
 				49D8B8932BBAEFB300B49C46 /* Managers */,
 				49D8B8862BBADAD300B49C46 /* Extensions */,
@@ -123,6 +132,7 @@
 				49D8B8772BBAD61400B49C46 /* TabBarController.swift */,
 				49D8B8792BBAD75200B49C46 /* FeedVC.swift */,
 				49D8B87B2BBAD75C00B49C46 /* ProfileVC.swift */,
+				49D8B8AC2BBC3F0300B49C46 /* CreateQuestionVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -130,6 +140,7 @@
 		49D8B87D2BBAD8AF00B49C46 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				49D8B8A92BBC3BE300B49C46 /* Cell */,
 				49D8B8902BBAE6EF00B49C46 /* Button */,
 				49D8B88D2BBAE10000B49C46 /* TextField */,
 				49D8B88C2BBAE0E500B49C46 /* Label */,
@@ -194,6 +205,23 @@
 				49D8B8A42BBB195E00B49C46 /* LoginUserRequest.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		49D8B8A62BBC30AB00B49C46 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				49D8B8A72BBC30B200B49C46 /* Validator.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		49D8B8A92BBC3BE300B49C46 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				49D8B8AA2BBC3BFE00B49C46 /* FeedTableCell.swift */,
+				49D8B8AE2BBC41DB00B49C46 /* OptionsTableCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,9 +307,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				49D8B87A2BBAD75200B49C46 /* FeedVC.swift in Sources */,
+				49D8B8AD2BBC3F0300B49C46 /* CreateQuestionVC.swift in Sources */,
 				49D8B88F2BBAE11300B49C46 /* CustomTextField.swift in Sources */,
 				49D8B8A52BBB195E00B49C46 /* LoginUserRequest.swift in Sources */,
 				4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */,
+				49D8B8AB2BBC3BFE00B49C46 /* FeedTableCell.swift in Sources */,
 				49D8B8A32BBB03BF00B49C46 /* RegisterUserRequest.swift in Sources */,
 				49D8B88B2BBADB1700B49C46 /* UIView+Ext.swift in Sources */,
 				49D8B87C2BBAD75C00B49C46 /* ProfileVC.swift in Sources */,
@@ -290,8 +320,10 @@
 				49D8B8762BBAD59900B49C46 /* RegisterVC.swift in Sources */,
 				49D8B8802BBAD8CA00B49C46 /* AuthHeaderView.swift in Sources */,
 				49D8B8922BBAE6FD00B49C46 /* CustomButton.swift in Sources */,
+				49D8B8A82BBC30B200B49C46 /* Validator.swift in Sources */,
 				49D8B8782BBAD61400B49C46 /* TabBarController.swift in Sources */,
 				49D8B8742BBAD58F00B49C46 /* LoginVC.swift in Sources */,
+				49D8B8AF2BBC41DB00B49C46 /* OptionsTableCell.swift in Sources */,
 				49D8B8892BBADAF900B49C46 /* UIViewController+Ext.swift in Sources */,
 				49D8B8A02BBB02E600B49C46 /* AuthService.swift in Sources */,
 			);

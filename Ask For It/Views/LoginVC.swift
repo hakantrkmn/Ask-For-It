@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 
 class LoginVC: UIViewController {
-
+    
     private var header = AuthHeaderView(title: "Sign In", subTitle: "Sign in to your account")
-    private var usernameLabel = CustomTextField(fieldType: .username)
-    private var passwordLabel = CustomTextField(fieldType: .password)
+    private var emailTextField = CustomTextField(fieldType: .email)
+    private var passwordTextField = CustomTextField(fieldType: .password)
     private let signInButton = CustomButton(title: "Sign In", hasBackground: true, fontSize: .Big)
     private let newUserButton = CustomButton(title: "Create Account", hasBackground: false, fontSize: .Medium)
-
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -23,24 +23,33 @@ class LoginVC: UIViewController {
         setupUI()
         self.signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         self.newUserButton.addTarget(self, action: #selector(newUserButtonTapped), for: .touchUpInside)
+        emailTextField.delegate = self
         
-        let user = LoginUserRequest(email: "hakan@gmail.com", password: "hakan6161")
         
-        AuthService.loginUser(with: user) { result in
-            switch result {
-            case .success(_):
-                AlertManager.showInvalidEmailAlert(on: self)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
     }
-  
+    
     @objc func signInButtonTapped()
     {
-        let vc = TabBarController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        if Validator.isValidEmail(for: emailTextField.text!)
+        {
+            let user = LoginUserRequest(email: emailTextField.text!, password: passwordTextField.text!)
+            AuthService.loginUser(with: user) { result in
+                switch result {
+                case .success(_):
+                    let vc = TabBarController()
+                    vc.modalPresentationStyle = .fullScreen
+                    self.present(vc, animated: true)
+                case .failure(let failure):
+                    AlertManager.showBasicAlert(on: self, title: "Something Wrong", message: "Wrong Password")
+                }
+            }
+            
+        }
+        else
+        {
+            AlertManager.showInvalidEmailAlert(on: self)
+        }
+        
     }
     
     @objc func newUserButtonTapped()
@@ -50,29 +59,29 @@ class LoginVC: UIViewController {
     
     private func setupUI()
     {
-        view.addSubViews(header,usernameLabel,passwordLabel,signInButton,newUserButton)
+        view.addSubViews(header,emailTextField,passwordTextField,signInButton,newUserButton)
         
         header.snp.makeConstraints { make in
             make.top.trailing.leading.equalTo(view.safeAreaLayoutGuide )
             make.height.equalTo(200)
         }
         
-        usernameLabel.snp.makeConstraints { make in
+        emailTextField.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(12)
             make.centerX.equalTo(header)
             make.height.equalTo(55)
             make.width.equalToSuperview().multipliedBy(0.85)
         }
         
-        passwordLabel.snp.makeConstraints { make in
-            make.top.equalTo(usernameLabel.snp.bottom).offset(12)
+        passwordTextField.snp.makeConstraints { make in
+            make.top.equalTo(emailTextField.snp.bottom).offset(12)
             make.centerX.equalTo(header)
             make.height.equalTo(55)
             make.width.equalToSuperview().multipliedBy(0.85)
         }
         
         signInButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordLabel.snp.bottom).offset(12)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(12)
             make.centerX.equalTo(header)
             make.height.equalTo(55)
             make.width.equalToSuperview().multipliedBy(0.85)
@@ -84,5 +93,29 @@ class LoginVC: UIViewController {
             make.height.equalTo(55)
             make.width.equalToSuperview().multipliedBy(0.65)
         }
+        
+    }
+}
+
+extension LoginVC : UITextFieldDelegate
+{
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !Validator.isValidEmail(for: emailTextField.text!)
+        {
+            UIView.animate(withDuration: 0.2)
+            {
+                self.emailTextField.backgroundColor = .red
+            } completion: { isDone in
+                if isDone
+                {
+                    UIView.animate(withDuration: 0.2)
+                    {
+                        self.emailTextField.backgroundColor = .secondarySystemBackground
+                    }
+                }
+            }
+            
+        }
+        
     }
 }
