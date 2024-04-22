@@ -25,12 +25,12 @@ class OptionsTableCell: UITableViewCell {
     func set(temp : String)
     {
         option.text = temp
+        option.placeholder = "put option"
     }
     
     private func setupCell()
     {
         contentView.addSubview(option)
-        
         option.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

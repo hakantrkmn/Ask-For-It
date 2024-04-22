@@ -19,3 +19,23 @@ extension UIView
     }
 }
 
+
+
+
+extension UITableView
+{
+    func getRows()
+    {
+        for section in 0..<self.numberOfSections {
+            for row in 0..<self.numberOfRows(inSection: section) {
+                let indexPath = IndexPath(row: row, section: section)
+                if let cell = self.cellForRow(at: indexPath) as? OptionsTableCell {
+                    if let text = cell.option.text {
+                        //allTextInputs.append(text)
+                    }
+                }
+            }
+        }
+    }
+}
+
