@@ -77,19 +77,21 @@ class CreateQuestionVC: UIViewController
     
     @objc func createQuestion()
     {
+        Task{
+            
         do
         {
-            try vm.createQuestion(with: optionsTable, question: questionText.text)
-            Task{
+                try await vm.createQuestion(with: optionsTable, question: questionText.text)
                 let vc = AnswerQuestionVC()
                 try await vc.vm.getQuestion(with: vm.questionId!)
                 navigationController?.pushViewController(vc, animated: true)
-            }
+            
            
         }
         catch
         {
             AlertManager.showQuestionCreationFailed(on: self)
+        }
         }
     }
 

@@ -18,6 +18,7 @@
 		490B2EFD2BE7D2270046B6CA /* AnswerQuestionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2EFC2BE7D2270046B6CA /* AnswerQuestionTableCell.swift */; };
 		490B2EFF2BE8FE3C0046B6CA /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2EFE2BE8FE3C0046B6CA /* UserInfo.swift */; };
 		490B2F012BE8FE610046B6CA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F002BE8FE610046B6CA /* User.swift */; };
+		490B2F032BE906090046B6CA /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 490B2F022BE906090046B6CA /* FirebaseFirestoreSwift */; };
 		4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822C2BBAD3E90074004A /* AppDelegate.swift */; };
 		4961822F2BBAD3E90074004A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822E2BBAD3E90074004A /* SceneDelegate.swift */; };
 		496182362BBAD3EA0074004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 496182352BBAD3EA0074004A /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 				49BD85B32BDC0965004D71C2 /* FirebaseDatabaseSwift in Frameworks */,
 				49D8B8832BBAD8E900B49C46 /* SnapKit in Frameworks */,
 				49D8B89C2BBB01EB00B49C46 /* FirebaseFirestore in Frameworks */,
+				490B2F032BE906090046B6CA /* FirebaseFirestoreSwift in Frameworks */,
 				49D8B89A2BBB01EB00B49C46 /* FirebaseAuth in Frameworks */,
 				49D8B89E2BBB01EB00B49C46 /* FirebaseStorage in Frameworks */,
 				49D8B8852BBAD8E900B49C46 /* SnapKit-Dynamic in Frameworks */,
@@ -299,6 +301,7 @@
 				49D8B89B2BBB01EB00B49C46 /* FirebaseFirestore */,
 				49D8B89D2BBB01EB00B49C46 /* FirebaseStorage */,
 				49BD85B22BDC0965004D71C2 /* FirebaseDatabaseSwift */,
+				490B2F022BE906090046B6CA /* FirebaseFirestoreSwift */,
 			);
 			productName = "Ask For It";
 			productReference = 496182292BBAD3E90074004A /* Ask For It.app */;
@@ -630,6 +633,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		490B2F022BE906090046B6CA /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49D8B8982BBB01EB00B49C46 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
 		49BD85B22BDC0965004D71C2 /* FirebaseDatabaseSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 49D8B8982BBB01EB00B49C46 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -20,30 +20,24 @@ class NetworkService
     let db = Firestore.firestore()
     
     
-    func createQuestion(questionString : String ,with options : [String]) throws -> String?
+    func createQuestion(questionString : String ,with options : [String]) async throws -> String?
     {
         guard let user = Auth.auth().currentUser else {return nil}
         
-        let question = QuestionQuery(userId: user.uid,title: questionString, optionIDs : [ ] , answeredUserIDs: [])
+        let question = QuestionQuery(userId: user.uid,title: questionString, optionIDs : [ ] , answeredUserIDs: [] )
         
-        do
+        let questionDatabase = try db.collection("Questions").addDocument(from: question)
+        for i in 0..<options.count
         {
-            let questionDatabase = try db.collection("Questions").addDocument(from: question)
+            let option = Option(title: options[i], questionId: questionDatabase.documentID, userIDs: [])
+            let optionDatabase = try  db.collection("Options").addDocument(from: option)
+            question.optionIDs.append(optionDatabase.documentID)
             
-            for i in 0..<options.count
-            {
-                let option = Option(title: options[i], questionId: questionDatabase.documentID, userIDs: [])
-                let optionDatabase = try  db.collection("Options").addDocument(from: option)
-                question.optionIDs.append(optionDatabase.documentID)
-            }
-            
-            db.collection("Questions").document(questionDatabase.documentID).updateData(question.dictionary)
-            return questionDatabase.documentID
         }
-        catch
-        {
-            return nil
-        }
+        try await db.collection("Questions").document(questionDatabase.documentID).updateData(question.dictionary)
+        
+        return questionDatabase.documentID
+        
         
     }
     
@@ -51,17 +45,17 @@ class NetworkService
     {
         
         guard let userId = Auth.auth().currentUser?.uid else {return}
-        var questionQuery = try await getQuestionQuery(with: questionId)
-        var questionId = (try await getQuestion(with: questionId)).options.first?.questionId
-        var option = try await getOption(with: questionQuery.optionIDs[optionIndex])
-
+        let questionQuery = try await getQuestionQuery(with: questionId)
+        let questionId = (try await getQuestion(with: questionId)).options.first?.questionId
+        let option = try await getOption(with: questionQuery.optionIDs[optionIndex])
+        
         questionQuery.answeredUserIDs.append(userId)
         option?.userIDs.append(userId)
         
         
         try await db.collection("Questions").document(questionId!).updateData(questionQuery.dictionary)
         try await db.collection("Options").document(questionQuery.optionIDs[optionIndex]).updateData(option.dictionary)
-
+        
         
         
         
@@ -147,6 +141,8 @@ class NetworkService
                 try await questionData.options.append(getOption(with: opt)!)
             }
             questions.append(questionData)
+            dump(doc.optionIDs)
+            
         }
         
         return questions

@@ -17,27 +17,29 @@ class CreateQuestionViewModel
     
     var questionId : String?
     
-    func createQuestion(with table : UITableView , question : String) throws
+    func createQuestion(with table : UITableView , question : String) async throws
     {
         var opList : [String] = []
-        for section in 0..<table.numberOfSections
+        for section in await 0..<table.numberOfSections
         {
-            for row in 0..<table.numberOfRows(inSection: section)
+            for row in await 0..<table.numberOfRows(inSection: section)
             {
                 let indexPath = IndexPath(row: row, section: section)
                 
-                if let cell = table.cellForRow(at: indexPath) as? OptionsTableCell
+                if let cell = await table.cellForRow(at: indexPath) as? OptionsTableCell
                 {
-                    if cell.option.text?.count != 0
+                    if await cell.option.text?.count != 0
                     {
-                        opList.append(cell.option.text!)
+                        await  opList.append(cell.option.text!)
                     }
                 }
             }
         }
         
-       
-        self.questionId = try NetworkService.shared.createQuestion(questionString: question, with: opList)
+      
+            self.questionId = try await NetworkService.shared.createQuestion(questionString: question, with: opList)
+
+        
         
     }
     

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 class QuestionQuery : Codable
 {
@@ -13,6 +15,7 @@ class QuestionQuery : Codable
     var title : String
     var optionIDs : [String]
     var answeredUserIDs : [String]
+    
     init(userId: String, title: String, optionIDs: [String], answeredUserIDs: [String]) {
         self.userId = userId
         self.title = title
@@ -23,7 +26,6 @@ class QuestionQuery : Codable
 
 class Question : Codable
 {
-    @DocumentID var id : String?
     var userId : String
     var title : String
     var options : [Option]
