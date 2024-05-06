@@ -36,10 +36,12 @@ class ProfileVC: UIViewController {
     {
         AuthService.logoutUser { result in
             switch result {
-            case .success(let success):
-                self.present(LoginVC(), animated: true)
+            case .success(_):
+                let vc = LoginVC()
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
                 break
-            case .failure(let failure):
+            case .failure(_):
                 print("sıkıntı oldu")
             }
         }

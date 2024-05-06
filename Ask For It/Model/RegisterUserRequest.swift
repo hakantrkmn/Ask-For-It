@@ -14,14 +14,3 @@ struct RegisterUserRequest
     var password :String
 }
 
-
-enum Section
-{
-    case first
-}
-
-struct Option : Hashable
-{
-    var id = UUID()
-    var title : String
-}

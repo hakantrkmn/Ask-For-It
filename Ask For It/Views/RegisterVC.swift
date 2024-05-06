@@ -16,6 +16,9 @@ class RegisterVC: UIViewController {
     private let signUpButton = CustomButton(title: "Sign Up", hasBackground: true, fontSize: .Big)
     private let signInButton = CustomButton(title: "Already have an account? Sign in.", hasBackground: false, fontSize: .Small)
 
+    let vm = RegisterViewModel()
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -28,12 +31,16 @@ class RegisterVC: UIViewController {
   
     @objc func signUpButtonTapped()
     {
-        navigationController?.pushViewController(FeedVC(), animated: true)
+        guard let email = emailLabel.text , let password = passwordLabel.text , let username = usernameLabel.text else {return}
+
+        vm.signUp(for: RegisterUserRequest(username: username, email: email, password: password), for: self)
     }
     
     @objc func signInButtonTapped()
     {
-        navigationController?.pushViewController(LoginVC(), animated: true)
+        let vc = LoginVC()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
     
    

@@ -18,7 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         if Auth.auth().currentUser != nil
         {
-            window.rootViewController = TabBarController()
+            
+            Task{
+                guard let id = Auth.auth().currentUser?.uid else {
+                    return }
+                UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
+                window.rootViewController = TabBarController()
+
+            }
             
         }
         else

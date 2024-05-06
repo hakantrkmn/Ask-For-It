@@ -16,6 +16,8 @@ class LoginVC: UIViewController {
     private let signInButton = CustomButton(title: "Sign In", hasBackground: true, fontSize: .Big)
     private let newUserButton = CustomButton(title: "Create Account", hasBackground: false, fontSize: .Medium)
     
+    let vm = LoginViewModel()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -30,31 +32,17 @@ class LoginVC: UIViewController {
     
     @objc func signInButtonTapped()
     {
-        if Validator.isValidEmail(for: emailTextField.text!)
-        {
-            let user = LoginUserRequest(email: emailTextField.text!, password: passwordTextField.text!)
-            AuthService.loginUser(with: user) { result in
-                switch result {
-                case .success(_):
-                    let vc = TabBarController()
-                    vc.modalPresentationStyle = .fullScreen
-                    self.present(vc, animated: true)
-                case .failure(let failure):
-                    AlertManager.showBasicAlert(on: self, title: "Something Wrong", message: "Wrong Password")
-                }
-            }
-            
-        }
-        else
-        {
-            AlertManager.showInvalidEmailAlert(on: self)
-        }
+        guard let email = emailTextField.text , let password = passwordTextField.text else {return}
+        
+        vm.signIn(with: LoginUserRequest(email: email, password: password), for: self)
         
     }
     
     @objc func newUserButtonTapped()
     {
-        navigationController?.pushViewController(RegisterVC(), animated: true)
+        let vc = RegisterVC()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
     
     private func setupUI()

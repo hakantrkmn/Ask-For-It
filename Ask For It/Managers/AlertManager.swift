@@ -37,3 +37,16 @@ extension AlertManager
         self.showBasicAlert(on: vc, title: "Invalid Username", message: "Please check your username")
     }
 }
+
+extension AlertManager
+{
+    // MARK: Create question Alerts
+    public static func showQuestionCreationFailed(on vc : UIViewController)
+    {
+        self.showBasicAlert(on: vc, title: "Cannot Create Question", message: "Something wrong")
+    }
+    
+
+    
+   
+}
