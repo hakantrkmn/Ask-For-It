@@ -15,17 +15,21 @@ class RegisterViewModel
     {
         if Validator.isValidEmail(for: user.email)
         {
-            AuthService.registerUser(with: user) { result in
-                switch result {
-                case .success(_):
+            Task
+            {@MainActor in
+                do
+                {
+                    try await  AuthService.registerUser(with: user)
                     let feed = TabBarController()
                     feed.modalPresentationStyle = .fullScreen
                     vc.present(feed, animated: true)
-                case .failure(_):
+                }
+                catch
+                {
                     AlertManager.showBasicAlert(on: vc, title: "Something Wrong", message: "Wrong Password")
+                    
                 }
             }
-            
         }
         else
         {

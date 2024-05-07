@@ -11,67 +11,19 @@ import FirebaseFirestore
 
 enum AuthService
 {
-    
-    public static func registerUser(with userRequest : RegisterUserRequest , completion: @escaping (Result<Bool, Error>)-> Void)
+    public static func registerUser(with userRequest : RegisterUserRequest ) async throws
     {
-        let username = userRequest.username
-        let email = userRequest.email
-        let password = userRequest.password
-        
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if let error = error
-            {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let resultUser = result?.user else { completion(.failure(error!)); return  }
-            
-            let db = Firestore.firestore()
-            
-            db.collection("users").document(resultUser.uid).setData(["username" : username , "email" : email]) { error in
-                if let error = error
-                {
-                    completion(.failure(error))
-                    return
-                }
-                completion(.success(true))
-            }
-        }
+        try await Auth.auth().createUser(withEmail: userRequest.email, password: userRequest.password)
     }
     
-    public static func loginUser(with loginRequest : LoginUserRequest , completion: @escaping (Result<Bool,Error>) -> Void)
+    public static func loginUser(with loginRequest : LoginUserRequest) async throws
     {
-        Auth.auth().signIn(withEmail: loginRequest.email, password: loginRequest.password) { Result, error in
-            if let error = error
-            {
-                completion(.failure(error))
-                return
-            }
-            else
-            {
-               
-    
-                    completion(.success(true))
-
-            
-                
-            }
-            
-        }
+        try await Auth.auth().signIn(withEmail: loginRequest.email, password: loginRequest.password)
     }
     
-    public static func logoutUser(completion: @escaping (Result<Bool?,Error>) -> Void)
+    public static func logoutUser() throws
     {
-        do{
-            try Auth.auth().signOut()
-            completion(.success(nil))
-        }catch let error
-        {
-            completion(.failure(error))
-        }
-        
-        
+        try  Auth.auth().signOut()
         
     }
 }

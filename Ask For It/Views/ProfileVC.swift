@@ -34,17 +34,16 @@ class ProfileVC: UIViewController {
     
     @objc func logoutbuttonTapped()
     {
-        AuthService.logoutUser { result in
-            switch result {
-            case .success(_):
-                let vc = LoginVC()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
-                break
-            case .failure(_):
-                print("sıkıntı oldu")
-            }
+        do{
+            try AuthService.logoutUser()
+            let vc = LoginVC()
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
         }
+        catch{
+            print(error)
+        }
+       
     }
 
 }

@@ -12,7 +12,8 @@ class QuestionDetailViewModel
 {
     var question : Question?
     
-    init(question: Question? = nil , questionId : String) throws {
+    init(question: Question? = nil , questionId : String) throws 
+    {
         self.question = question
         try getQuestion(with: questionId)
         

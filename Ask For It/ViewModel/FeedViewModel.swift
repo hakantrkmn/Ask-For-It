@@ -13,8 +13,7 @@ class FeedViewModel
     
     func getQuestions() async throws
     {
-        questions =  try await  NetworkService.shared.getRandomQuestions()!
-        
+        questions =  try await  NetworkService.shared.getRandomQuestions() ?? []
     }
     
 }

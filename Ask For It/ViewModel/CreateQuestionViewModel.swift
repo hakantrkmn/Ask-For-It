@@ -35,12 +35,7 @@ class CreateQuestionViewModel
                 }
             }
         }
-        
-      
-            self.questionId = try await NetworkService.shared.createQuestion(questionString: question, with: opList)
-
-        
-        
+        self.questionId = try await NetworkService.shared.createQuestion(questionString: question, with: opList)
     }
     
     func addNewRow()
@@ -57,13 +52,13 @@ class CreateQuestionViewModel
         snapshot.appendItems(options)
         dataSource.apply(snapshot,animatingDifferences: .random())
         
-       
+        
     }
     
     func deleteItemFromDataSource(at indexPath : IndexPath)
     {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return}
-
+        
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         dataSource.apply(snapshot,animatingDifferences: true)

@@ -8,37 +8,35 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+
 class LoginViewModel
 {
-    
-    
     func signIn(with user : LoginUserRequest , for vc : UIViewController)
     {
         if Validator.isValidEmail(for: user.email)
         {
-            let user = LoginUserRequest(email: user.email, password: user.password)
-            AuthService.loginUser(with: user) { result in
-                switch result 
+            Task
+            { @MainActor in
+                let user = LoginUserRequest(email: user.email, password: user.password)
+                
+                do
                 {
-                case .success(_):
-                    Task
-                    {
-                        guard let id = Auth.auth().currentUser?.uid else {
-                            return }
-                        UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
-                        
-                        DispatchQueue.main.async{
-                            let feed = TabBarController()
-                            feed.modalPresentationStyle = .fullScreen
-                            vc.present(feed, animated: true)
-                        }
-                    }
-                   
-                case .failure(_):
-                    AlertManager.showBasicAlert(on: vc, title: "Something Wrong", message: "Wrong Password")
+                    try await AuthService.loginUser(with: user)
+                    
+                    guard let id = Auth.auth().currentUser?.uid else {return }
+                    
+                    UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
+                    
+                    let feed = TabBarController()
+                    feed.modalPresentationStyle = .fullScreen
+                    vc.present(feed, animated: true)
+                }
+                catch
+                {
+                    dump(error)
+                    AlertManager.showBasicAlert(on: vc, title: "Something Wrong", message: error.localizedDescription)
                 }
             }
-            
         }
         else
         {

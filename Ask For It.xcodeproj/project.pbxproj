@@ -19,6 +19,9 @@
 		490B2EFF2BE8FE3C0046B6CA /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2EFE2BE8FE3C0046B6CA /* UserInfo.swift */; };
 		490B2F012BE8FE610046B6CA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F002BE8FE610046B6CA /* User.swift */; };
 		490B2F032BE906090046B6CA /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 490B2F022BE906090046B6CA /* FirebaseFirestoreSwift */; };
+		490B2F062BE92A3D0046B6CA /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 490B2F052BE92A3D0046B6CA /* DGCharts */; };
+		490B2F082BE92A3D0046B6CA /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 490B2F072BE92A3D0046B6CA /* DGChartsDynamic */; };
+		490B2F0C2BEA6E680046B6CA /* DatabaseNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F0B2BEA6E680046B6CA /* DatabaseNames.swift */; };
 		4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822C2BBAD3E90074004A /* AppDelegate.swift */; };
 		4961822F2BBAD3E90074004A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822E2BBAD3E90074004A /* SceneDelegate.swift */; };
 		496182362BBAD3EA0074004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 496182352BBAD3EA0074004A /* Assets.xcassets */; };
@@ -65,6 +68,7 @@
 		490B2EFC2BE7D2270046B6CA /* AnswerQuestionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerQuestionTableCell.swift; sourceTree = "<group>"; };
 		490B2EFE2BE8FE3C0046B6CA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		490B2F002BE8FE610046B6CA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		490B2F0B2BEA6E680046B6CA /* DatabaseNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseNames.swift; sourceTree = "<group>"; };
 		496182292BBAD3E90074004A /* Ask For It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ask For It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4961822C2BBAD3E90074004A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4961822E2BBAD3E90074004A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,12 +104,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				490B2F062BE92A3D0046B6CA /* DGCharts in Frameworks */,
 				49BD85B32BDC0965004D71C2 /* FirebaseDatabaseSwift in Frameworks */,
 				49D8B8832BBAD8E900B49C46 /* SnapKit in Frameworks */,
 				49D8B89C2BBB01EB00B49C46 /* FirebaseFirestore in Frameworks */,
 				490B2F032BE906090046B6CA /* FirebaseFirestoreSwift in Frameworks */,
 				49D8B89A2BBB01EB00B49C46 /* FirebaseAuth in Frameworks */,
 				49D8B89E2BBB01EB00B49C46 /* FirebaseStorage in Frameworks */,
+				490B2F082BE92A3D0046B6CA /* DGChartsDynamic in Frameworks */,
 				49D8B8852BBAD8E900B49C46 /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				49D8B8A72BBC30B200B49C46 /* Validator.swift */,
+				490B2F0B2BEA6E680046B6CA /* DatabaseNames.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -302,6 +309,8 @@
 				49D8B89D2BBB01EB00B49C46 /* FirebaseStorage */,
 				49BD85B22BDC0965004D71C2 /* FirebaseDatabaseSwift */,
 				490B2F022BE906090046B6CA /* FirebaseFirestoreSwift */,
+				490B2F052BE92A3D0046B6CA /* DGCharts */,
+				490B2F072BE92A3D0046B6CA /* DGChartsDynamic */,
 			);
 			productName = "Ask For It";
 			productReference = 496182292BBAD3E90074004A /* Ask For It.app */;
@@ -334,6 +343,7 @@
 			packageReferences = (
 				49D8B8812BBAD8E900B49C46 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				49D8B8982BBB01EB00B49C46 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				490B2F042BE92A3C0046B6CA /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 4961822A2BBAD3E90074004A /* Products */;
 			projectDirPath = "";
@@ -389,6 +399,7 @@
 				490B2F012BE8FE610046B6CA /* User.swift in Sources */,
 				49D8B8A82BBC30B200B49C46 /* Validator.swift in Sources */,
 				490B2EF32BE7C3CC0046B6CA /* QuestionDetailVC.swift in Sources */,
+				490B2F0C2BEA6E680046B6CA /* DatabaseNames.swift in Sources */,
 				49D8B8782BBAD61400B49C46 /* TabBarController.swift in Sources */,
 				490B2EEF2BE7BA420046B6CA /* RegisterViewModel.swift in Sources */,
 				49D8B8742BBAD58F00B49C46 /* LoginVC.swift in Sources */,
@@ -614,6 +625,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		490B2F042BE92A3C0046B6CA /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 		49D8B8812BBAD8E900B49C46 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -637,6 +656,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 49D8B8982BBB01EB00B49C46 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		490B2F052BE92A3D0046B6CA /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 490B2F042BE92A3C0046B6CA /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+		490B2F072BE92A3D0046B6CA /* DGChartsDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 490B2F042BE92A3C0046B6CA /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGChartsDynamic;
 		};
 		49BD85B22BDC0965004D71C2 /* FirebaseDatabaseSwift */ = {
 			isa = XCSwiftPackageProductDependency;

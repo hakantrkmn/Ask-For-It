@@ -26,6 +26,13 @@ class AnswerQuestionVC: UIViewController
         view.backgroundColor = .systemBackground
         setUI()
         configureUI()
+        
+        let myTimeInterval = TimeInterval(vm.question!.createdAt)
+        let time = Date(timeIntervalSince1970: TimeInterval(myTimeInterval))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy : mm-hh"
+        print(dateFormatter.string(from: time))
+        print(time)
     }
     
     func configureUI()
