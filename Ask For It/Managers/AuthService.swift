@@ -13,7 +13,10 @@ enum AuthService
 {
     public static func registerUser(with userRequest : RegisterUserRequest ) async throws
     {
-        try await Auth.auth().createUser(withEmail: userRequest.email, password: userRequest.password)
+        var result = try await Auth.auth().createUser(withEmail: userRequest.email, password: userRequest.password)
+        let db = Firestore.firestore()
+        try await db.collection(DatabaseNames.userTable).document(result.user.uid).setData(["username" : userRequest.username , "email" : userRequest.email])
+        
     }
     
     public static func loginUser(with loginRequest : LoginUserRequest) async throws

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class RegisterViewModel
 {
@@ -20,6 +21,10 @@ class RegisterViewModel
                 do
                 {
                     try await  AuthService.registerUser(with: user)
+                    guard let id = Auth.auth().currentUser?.uid else {return }
+                    
+                    UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
+                    
                     let feed = TabBarController()
                     feed.modalPresentationStyle = .fullScreen
                     vc.present(feed, animated: true)

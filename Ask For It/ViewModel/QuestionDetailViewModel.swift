@@ -12,18 +12,8 @@ class QuestionDetailViewModel
 {
     var question : Question?
     
-    init(question: Question? = nil , questionId : String) throws 
+    func getQuestion(with questionId : String) async throws
     {
-        self.question = question
-        try getQuestion(with: questionId)
-        
-    }
-    
-    func getQuestion(with questionId : String) throws
-    {
-        Task
-        {
-            question = try await NetworkService.shared.getQuestion(with: questionId)   
-        }
+        question = try await NetworkService.shared.getQuestion(with: "jKPVqB5Fv9jFBBKhbjCP")
     }
 }

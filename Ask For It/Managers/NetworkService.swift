@@ -115,6 +115,8 @@ class NetworkService
         return question
     }
     
+   
+    
     
     func getRandomQuestions() async throws -> [Question]?
     {
@@ -124,8 +126,13 @@ class NetworkService
         var questions : [Question] = []
         let question = try await questionCollection.whereField("userId", isNotEqualTo: user.uid).getDocuments()
         
-        for document in question.documents {
+        for document in question.documents 
+        {
             let doc = try document.data(as: QuestionQuery.self)
+            if doc.answeredUserIDs.contains(user.uid)
+            {
+                continue
+            }
             let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
             questionData.userInfo = try await getUserInfo(with: questionData.userId)
             
@@ -139,6 +146,63 @@ class NetworkService
         }
         
         return questions
+    }
+    
+    
+    func getRandomSnapshot() -> [Question]?
+    {
+        let questionCollection  = db.collection(DatabaseNames.questionTable)
+        
+        guard let user = Auth.auth().currentUser else { return nil }
+        let question =  questionCollection.whereField("userId", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("Error fetching documents: \(error!)")
+                return
+            }
+            Task{
+                var questions : [Question] = []
+                
+                for document in documents
+                {
+                    do{
+                        let doc = try document.data(as: QuestionQuery.self)
+                        if doc.answeredUserIDs.contains(user.uid)
+                        {
+                            continue
+                        }
+                        let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+                        
+                        questionData.userInfo = try await self.getUserInfo(with: questionData.userId)
+                        
+                        
+                        for opt in doc.optionIDs
+                        {
+                            try await questionData.options.append(self.getOption(with: opt)!)
+                        }
+                        questions.append(questionData)
+                        
+                    }
+                    catch
+                    {
+                        return []
+                    }
+                    
+                    
+                }
+                return questions
+                
+            }
+            
+            
+            
+            
+        }
+        
+        
+        return []
+
+        
+       
     }
     
     
