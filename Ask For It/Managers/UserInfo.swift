@@ -12,7 +12,7 @@ class UserInfo
 {
     static let shared = UserInfo()
     
-    var user = User(email: "", username: "")
+    var user = User(id: "" ,email: "", username: "")
     
     init() {
         

@@ -22,6 +22,11 @@
 		490B2F062BE92A3D0046B6CA /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 490B2F052BE92A3D0046B6CA /* DGCharts */; };
 		490B2F082BE92A3D0046B6CA /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 490B2F072BE92A3D0046B6CA /* DGChartsDynamic */; };
 		490B2F0C2BEA6E680046B6CA /* DatabaseNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F0B2BEA6E680046B6CA /* DatabaseNames.swift */; };
+		490B2F0E2BEAD93E0046B6CA /* CreatedQuestionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F0D2BEAD93E0046B6CA /* CreatedQuestionsVC.swift */; };
+		490B2F102BEAD94D0046B6CA /* AnsweredQuestionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F0F2BEAD94D0046B6CA /* AnsweredQuestionsVC.swift */; };
+		490B2F152BEAE4370046B6CA /* ProfileQuestionPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F142BEAE4370046B6CA /* ProfileQuestionPageVC.swift */; };
+		490B2F172BEB667C0046B6CA /* ProfileSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F162BEB667C0046B6CA /* ProfileSummaryView.swift */; };
+		490B2F1B2BEB72CC0046B6CA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F1A2BEB72CC0046B6CA /* ChartView.swift */; };
 		4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822C2BBAD3E90074004A /* AppDelegate.swift */; };
 		4961822F2BBAD3E90074004A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822E2BBAD3E90074004A /* SceneDelegate.swift */; };
 		496182362BBAD3EA0074004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 496182352BBAD3EA0074004A /* Assets.xcassets */; };
@@ -69,6 +74,11 @@
 		490B2EFE2BE8FE3C0046B6CA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		490B2F002BE8FE610046B6CA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		490B2F0B2BEA6E680046B6CA /* DatabaseNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseNames.swift; sourceTree = "<group>"; };
+		490B2F0D2BEAD93E0046B6CA /* CreatedQuestionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedQuestionsVC.swift; sourceTree = "<group>"; };
+		490B2F0F2BEAD94D0046B6CA /* AnsweredQuestionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnsweredQuestionsVC.swift; sourceTree = "<group>"; };
+		490B2F142BEAE4370046B6CA /* ProfileQuestionPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileQuestionPageVC.swift; sourceTree = "<group>"; };
+		490B2F162BEB667C0046B6CA /* ProfileSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSummaryView.swift; sourceTree = "<group>"; };
+		490B2F1A2BEB72CC0046B6CA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		496182292BBAD3E90074004A /* Ask For It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ask For It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4961822C2BBAD3E90074004A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4961822E2BBAD3E90074004A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +140,16 @@
 				490B2EFA2BE7C7AD0046B6CA /* AnswerQuestionViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		490B2F112BEAE35D0046B6CA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				490B2F0D2BEAD93E0046B6CA /* CreatedQuestionsVC.swift */,
+				490B2F0F2BEAD94D0046B6CA /* AnsweredQuestionsVC.swift */,
+				490B2F142BEAE4370046B6CA /* ProfileQuestionPageVC.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		496182202BBAD3E90074004A = {
@@ -194,6 +214,7 @@
 		49D8B87D2BBAD8AF00B49C46 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				490B2F112BEAE35D0046B6CA /* ViewController */,
 				49D8B8A92BBC3BE300B49C46 /* Cell */,
 				49D8B8902BBAE6EF00B49C46 /* Button */,
 				49D8B88D2BBAE10000B49C46 /* TextField */,
@@ -207,6 +228,8 @@
 			isa = PBXGroup;
 			children = (
 				49D8B87F2BBAD8CA00B49C46 /* AuthHeaderView.swift */,
+				490B2F162BEB667C0046B6CA /* ProfileSummaryView.swift */,
+				490B2F1A2BEB72CC0046B6CA /* ChartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -372,10 +395,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				490B2F102BEAD94D0046B6CA /* AnsweredQuestionsVC.swift in Sources */,
 				49D8B87A2BBAD75200B49C46 /* FeedVC.swift in Sources */,
 				490B2EF52BE7C4040046B6CA /* QuestionDetailViewModel.swift in Sources */,
 				49D8B8AD2BBC3F0300B49C46 /* CreateQuestionVC.swift in Sources */,
 				49D8B88F2BBAE11300B49C46 /* CustomTextField.swift in Sources */,
+				490B2F172BEB667C0046B6CA /* ProfileSummaryView.swift in Sources */,
 				49D8B8A52BBB195E00B49C46 /* LoginUserRequest.swift in Sources */,
 				4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */,
 				49D8B8AB2BBC3BFE00B49C46 /* FeedTableCell.swift in Sources */,
@@ -393,12 +418,15 @@
 				49BD85B72BDC0E1D004D71C2 /* Option.swift in Sources */,
 				490B2EF12BE7BB3B0046B6CA /* CreateQuestionViewModel.swift in Sources */,
 				490B2EEB2BE7B7170046B6CA /* FeedViewModel.swift in Sources */,
+				490B2F1B2BEB72CC0046B6CA /* ChartView.swift in Sources */,
 				49D8B8802BBAD8CA00B49C46 /* AuthHeaderView.swift in Sources */,
+				490B2F152BEAE4370046B6CA /* ProfileQuestionPageVC.swift in Sources */,
 				49BD85B12BDC0675004D71C2 /* NetworkService.swift in Sources */,
 				49D8B8922BBAE6FD00B49C46 /* CustomButton.swift in Sources */,
 				490B2F012BE8FE610046B6CA /* User.swift in Sources */,
 				49D8B8A82BBC30B200B49C46 /* Validator.swift in Sources */,
 				490B2EF32BE7C3CC0046B6CA /* QuestionDetailVC.swift in Sources */,
+				490B2F0E2BEAD93E0046B6CA /* CreatedQuestionsVC.swift in Sources */,
 				490B2F0C2BEA6E680046B6CA /* DatabaseNames.swift in Sources */,
 				49D8B8782BBAD61400B49C46 /* TabBarController.swift in Sources */,
 				490B2EEF2BE7BA420046B6CA /* RegisterViewModel.swift in Sources */,

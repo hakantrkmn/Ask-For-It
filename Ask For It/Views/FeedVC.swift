@@ -36,21 +36,15 @@ class FeedVC: UIViewController {
         feedTable.dataSource = self
         feedTable.delegate = self
      
-        
-        
-        Task
-        {
-            do
-            {
-                try await vm.getQuestions()
-            }
-            catch
-            {
-                print(Auth.auth().currentUser?.uid ?? "id yok ")
-            }
-            feedTable.reloadData()
-            
+       
+        vm.getQuestions {
+            self.feedTable.reloadData()
+
         }
+        
+        
+
+       
     }
     private func setupUI()
     {
@@ -81,7 +75,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableCell.identifier, for: indexPath) as? FeedTableCell else {return UITableViewCell() }
-        cell.set(temp: vm.questions[indexPath.row].title)
+        cell.set(  question: vm.questions[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }

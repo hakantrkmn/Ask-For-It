@@ -14,6 +14,6 @@ class QuestionDetailViewModel
     
     func getQuestion(with questionId : String) async throws
     {
-        question = try await NetworkService.shared.getQuestion(with: "jKPVqB5Fv9jFBBKhbjCP")
+        question = try await NetworkService.shared.getQuestion(with: questionId)
     }
 }

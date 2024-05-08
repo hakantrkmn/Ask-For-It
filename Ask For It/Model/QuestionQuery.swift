@@ -35,6 +35,8 @@ class Question : Codable
     var createdAt : TimeInterval
     var userInfo : User?
     
+    
+    
     init(userId: String, title: String, options: [Option], answeredUserIDs: [String], createdAt: TimeInterval, userInfo: User? = nil) {
         self.userId = userId
         self.title = title

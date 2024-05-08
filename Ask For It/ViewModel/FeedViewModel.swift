@@ -11,9 +11,12 @@ class FeedViewModel
 {
     var questions : [Question] = []
     
-    func getQuestions() async throws
+    func getQuestions(completion : @escaping () -> ())
     {
-        questions =  try await  NetworkService.shared.getRandomQuestions() ?? []
+        NetworkService.shared.getRandomSnapshot(completion: { questionList in
+            self.questions = questionList
+            completion()
+        })
     }
     
 }

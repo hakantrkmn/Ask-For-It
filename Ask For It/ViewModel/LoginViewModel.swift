@@ -33,7 +33,6 @@ class LoginViewModel
                 }
                 catch
                 {
-                    dump(error)
                     AlertManager.showBasicAlert(on: vc, title: "Something Wrong", message: error.localizedDescription)
                 }
             }

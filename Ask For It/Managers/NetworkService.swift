@@ -49,10 +49,10 @@ class NetworkService
         
         try await db.collection(DatabaseNames.questionTable).document(questionId!).updateData([
             "answeredUserIDs": FieldValue.arrayUnion([userId])
-          ])
+        ])
         try await db.collection(DatabaseNames.optionTable).document(questionQuery.optionIDs[optionIndex]).updateData([
             "userIDs": FieldValue.arrayUnion([userId])
-          ])
+        ])
         
     }
     
@@ -87,7 +87,7 @@ class NetworkService
     func getQuestion(with questionId : String) async throws -> Question
     {
         let questionCollection  = db.collection(DatabaseNames.questionTable)
-        let optionsCollection  = db.collection(DatabaseNames.optionTable) 
+        let optionsCollection  = db.collection(DatabaseNames.optionTable)
         
         let questionData = Question(userId: "", title: "", options: [], answeredUserIDs: [],createdAt: 10)
         
@@ -115,7 +115,57 @@ class NetworkService
         return question
     }
     
-   
+    func getUserCreatedQuestions(with user : User) async throws -> [Question]?
+    {
+        let questionCollection  = db.collection(DatabaseNames.questionTable)
+        
+        var questions : [Question] = []
+        let question = try await questionCollection.whereField("userId", isEqualTo: user.id).getDocuments()
+        
+        for document in question.documents
+        {
+            let doc = try document.data(as: QuestionQuery.self)
+            let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+            questionData.userInfo = try await getUserInfo(with: questionData.userId)
+            
+            
+            for opt in doc.optionIDs
+            {
+                try await questionData.options.append(getOption(with: opt)!)
+            }
+            questions.append(questionData)
+            
+        }
+        
+        return questions
+    }
+    
+    func getUserAnsweredQuestions(with user : User) async throws -> [Question]?
+    {
+        let questionCollection  = db.collection(DatabaseNames.questionTable)
+        
+        var questions : [Question] = []
+        let question = try await questionCollection.whereField("answeredUserIDs", arrayContains: user.id).getDocuments()
+        
+        for document in question.documents
+        {
+            let doc = try document.data(as: QuestionQuery.self)
+            let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+            questionData.userInfo = try await getUserInfo(with: questionData.userId)
+            
+            
+            for opt in doc.optionIDs
+            {
+                try await questionData.options.append(getOption(with: opt)!)
+            }
+            questions.append(questionData)
+            
+        }
+        
+        return questions
+    }
+    
+    
     
     
     func getRandomQuestions() async throws -> [Question]?
@@ -126,7 +176,7 @@ class NetworkService
         var questions : [Question] = []
         let question = try await questionCollection.whereField("userId", isNotEqualTo: user.uid).getDocuments()
         
-        for document in question.documents 
+        for document in question.documents
         {
             let doc = try document.data(as: QuestionQuery.self)
             if doc.answeredUserIDs.contains(user.uid)
@@ -149,19 +199,21 @@ class NetworkService
     }
     
     
-    func getRandomSnapshot() -> [Question]?
+    func getRandomSnapshot(completion: @escaping (_ questionList: [Question]) -> ())
     {
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
-        guard let user = Auth.auth().currentUser else { return nil }
+        guard let user = Auth.auth().currentUser else { return completion([]) }
         let question =  questionCollection.whereField("userId", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
+            guard let documents = querySnapshot?.documents
+            else
+            {
                 print("Error fetching documents: \(error!)")
                 return
             }
-            Task{
+            Task
+            {@MainActor in 
                 var questions : [Question] = []
-                
                 for document in documents
                 {
                     do{
@@ -179,30 +231,22 @@ class NetworkService
                         {
                             try await questionData.options.append(self.getOption(with: opt)!)
                         }
+                        
+                        
                         questions.append(questionData)
                         
                     }
                     catch
                     {
-                        return []
+                        
                     }
-                    
-                    
                 }
-                return questions
                 
-            }
-            
-            
-            
-            
+                completion(questions)
+            }      
         }
         
         
-        return []
-
-        
-       
     }
     
     

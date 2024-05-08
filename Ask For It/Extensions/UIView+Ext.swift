@@ -31,3 +31,15 @@ extension UIColor {
     }
 }
 
+extension TimeInterval
+{
+    func toString() -> String
+    {
+        let time = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        return dateFormatter.string(from: time)
+        
+    }
+}
+
