@@ -11,31 +11,21 @@ import FirebaseAuth
 
 class LoginViewModel
 {
-    func signIn(with user : LoginUserRequest , for vc : UIViewController)
+    func signIn(with user : LoginUserRequest , for vc : UIViewController) async throws
     {
         if Validator.isValidEmail(for: user.email)
         {
-            Task
-            { @MainActor in
+            
                 let user = LoginUserRequest(email: user.email, password: user.password)
                 
-                do
-                {
                     try await AuthService.loginUser(with: user)
                     
                     guard let id = Auth.auth().currentUser?.uid else {return }
                     
                     UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
                     
-                    let feed = TabBarController()
-                    feed.modalPresentationStyle = .fullScreen
-                    vc.present(feed, animated: true)
-                }
-                catch
-                {
-                    AlertManager.showBasicAlert(on: vc, title: "Something Wrong", message: error.localizedDescription)
-                }
-            }
+                   
+           
         }
         else
         {

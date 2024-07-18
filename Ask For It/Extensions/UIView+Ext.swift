@@ -37,7 +37,7 @@ extension TimeInterval
     {
         let time = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM yyyy"
+        dateFormatter.dateFormat = "MMMM d"
         return dateFormatter.string(from: time)
         
     }

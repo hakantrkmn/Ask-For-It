@@ -34,6 +34,12 @@ class ProfileSummaryView: UIView
         
     }
 
+    init()
+    {
+        super.init(frame: .zero)
+        setupUI()
+        
+    }
     func set(with user : User)
     {
         ppImageView.image = UIImage(named: "logo")

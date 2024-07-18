@@ -11,30 +11,28 @@ import FirebaseAuth
 
 class RegisterViewModel
 {
-    
-    func signUp(for user : RegisterUserRequest , for vc : UIViewController)
+    @MainActor
+    func signUp(for user : RegisterUserRequest , for vc : UIViewController) async throws
     {
         if Validator.isValidEmail(for: user.email)
         {
-            Task
-            {@MainActor in
-                do
-                {
-                    try await  AuthService.registerUser(with: user)
-                    guard let id = Auth.auth().currentUser?.uid else {return }
-                    
-                    UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
-                    
-                    let feed = TabBarController()
-                    feed.modalPresentationStyle = .fullScreen
-                    vc.present(feed, animated: true)
-                }
-                catch
-                {
-                    AlertManager.showBasicAlert(on: vc, title: "Something Wrong", message: "Wrong Password")
-                    
-                }
+            
+            do{
+                try await  AuthService.registerUser(with: user)
+                guard let id = Auth.auth().currentUser?.uid else {return }
+                
+                UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
+                
+                let feed =  TabBarController()
+                feed.modalPresentationStyle = .fullScreen
+                vc.present(feed, animated: true)
             }
+            catch let error{
+                AlertManager.showNotGoodPassword(on: vc)
+            }
+            
+            
+            
         }
         else
         {

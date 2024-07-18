@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
-class FeedVC: UIViewController {
+class FeedVC: SpinnerBase {
     
     var feedTable = UITableView()
     
@@ -21,14 +21,13 @@ class FeedVC: UIViewController {
         setupUI()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+        navigationItem.title  = "Feed"
+
     
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationItem.title  = UserInfo.shared.user.username
-    }
+
     
     private func configureUI()
     {
@@ -36,10 +35,10 @@ class FeedVC: UIViewController {
         feedTable.dataSource = self
         feedTable.delegate = self
      
-       
+        self.activityIndicatorBegin()
         vm.getQuestions {
             self.feedTable.reloadData()
-
+            //self.activityIndicatorEnd()
         }
         
         
@@ -53,7 +52,7 @@ class FeedVC: UIViewController {
             make.edges.equalToSuperview()
         }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(addTapped))
         
     }
     
@@ -67,8 +66,27 @@ class FeedVC: UIViewController {
     
 }
 
-extension FeedVC : UITableViewDelegate,UITableViewDataSource
+extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
 {
+    func profileTapped(_ user: String) {
+        Task
+        {
+            do
+            {
+                print(user)
+                var vc = VisitProfileVC()
+                vc.user = try await NetworkService.shared.getUserInfo(with: user)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+            catch
+            {
+                print("kalnsdşkasd")
+            }
+           
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return vm.questions.count
     }
@@ -76,6 +94,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableCell.identifier, for: indexPath) as? FeedTableCell else {return UITableViewCell() }
         cell.set(  question: vm.questions[indexPath.row])
+        cell.delegate = self
         cell.selectionStyle = .none
         return cell
     }
@@ -86,24 +105,15 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let id = vm.questions[indexPath.row].options.first?.questionId else { return}
+        guard let id = vm.questions[indexPath.row].option.first?.questionID else { return}
         
-        Task{
-            do
-            {
-                
-                let vc = AnswerQuestionVC()
-                try await vc.vm.getQuestion(with: id)
+           let vc = AnswerQuestionVC()
+                vc.vm.questionId = id
                 navigationController?.pushViewController(vc, animated: true)
-            }
-            catch
-            {
-                AlertManager.showQuestionCreationFailed(on: self)
-            }
+            
             
             tableView.deselectRow(at: indexPath, animated: true)
             
-        }
     }
     
     

@@ -25,15 +25,34 @@ class OptionsTableCell: UITableViewCell {
     func set(temp : String)
     {
         option.text = temp
-        option.placeholder = "put option"
+        option.placeholder = "New Option"
+        
+        
     }
+    
+    
     
     private func setupCell()
     {
         contentView.addSubview(option)
         option.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(36)
+            make.centerY.equalToSuperview()
+            
         }
+        contentView.isUserInteractionEnabled = true
+        option.autocorrectionType = .no
+        
+        option.layer.borderWidth = 1
+        option.layer.cornerRadius = 18
+        option.textAlignment = .center
+        option.clipsToBounds = true
+
+        selectionStyle = .none
+        option.font = .systemFont(ofSize: 20)
     }
+    
+    
 
 }

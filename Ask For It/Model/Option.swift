@@ -11,13 +11,13 @@ import Foundation
 class Option : Codable
 {
     var title : String
-    var questionId : String
-    var userIDs : [String]
+    var questionID : String
+    var votedUserID : [String]
     
     init(title: String, questionId: String, userIDs: [String]) {
         self.title = title
-        self.questionId = questionId
-        self.userIDs = userIDs
+        self.questionID = questionId
+        self.votedUserID = userIDs
     }
 }
 

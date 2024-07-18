@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterVC: UIViewController {
+class RegisterVC: SpinnerBase {
     
     private var header = AuthHeaderView(title: "Sign Up", subTitle: "Create your account")
     private var usernameLabel = CustomTextField(fieldType: .username)
@@ -32,8 +32,22 @@ class RegisterVC: UIViewController {
     @objc func signUpButtonTapped()
     {
         guard let email = emailLabel.text , let password = passwordLabel.text , let username = usernameLabel.text else {return}
+        self.activityIndicatorBegin()
+        Task { 
+            do{
+                try await  vm.signUp(for: RegisterUserRequest(username: username, email: email, password: password), for: self)
+                self.activityIndicatorEnd()
 
-        vm.signUp(for: RegisterUserRequest(username: username, email: email, password: password), for: self)
+            }
+            catch
+            {
+                AlertManager.showBasicAlert(on: self, title: "Something Wrong", message: "Wrong Password")
+                self.activityIndicatorEnd()
+
+
+            }
+        }
+        
     }
     
     @objc func signInButtonTapped()
@@ -42,6 +56,8 @@ class RegisterVC: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
+    
+   
     
    
     private func setupUI()

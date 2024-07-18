@@ -11,9 +11,9 @@ import UIKit
 class QuestionDetailViewModel
 {
     var question : Question?
-    
-    func getQuestion(with questionId : String) async throws
+    var questionID : String?
+    func getQuestion() async throws
     {
-        question = try await NetworkService.shared.getQuestion(with: questionId)
+        question = try await NetworkService.shared.getQuestion(with: questionID!)
     }
 }

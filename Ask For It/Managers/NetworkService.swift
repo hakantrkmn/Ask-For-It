@@ -32,7 +32,7 @@ class NetworkService
         {
             let option = Option(title: options[i], questionId: questionDatabase.documentID, userIDs: [])
             let optionDatabase = try  db.collection(DatabaseNames.optionTable).addDocument(from: option)
-            question.optionIDs.append(optionDatabase.documentID)
+            question.optionID.append(optionDatabase.documentID)
         }
         
         try await db.collection(DatabaseNames.questionTable).document(questionDatabase.documentID).updateData(question.dictionary)
@@ -45,13 +45,13 @@ class NetworkService
         guard let userId = Auth.auth().currentUser?.uid else {return}
         
         let questionQuery = try await getQuestionQuery(with: questionId)
-        let questionId = (try await getQuestion(with: questionId)).options.first?.questionId
+        let questionId = (try await getQuestion(with: questionId)).option.first?.questionID
         
         try await db.collection(DatabaseNames.questionTable).document(questionId!).updateData([
-            "answeredUserIDs": FieldValue.arrayUnion([userId])
+            "answeredUserID": FieldValue.arrayUnion([userId])
         ])
-        try await db.collection(DatabaseNames.optionTable).document(questionQuery.optionIDs[optionIndex]).updateData([
-            "userIDs": FieldValue.arrayUnion([userId])
+        try await db.collection(DatabaseNames.optionTable).document(questionQuery.optionID[optionIndex]).updateData([
+            "votedUserID": FieldValue.arrayUnion([userId])
         ])
         
     }
@@ -68,8 +68,12 @@ class NetworkService
     func getUserInfo(with userId : String) async throws -> User
     {
         let userCollection  = db.collection(DatabaseNames.userTable)
-        
-        let user = try await userCollection.document(userId).getDocument(as: User.self)
+        var user = try await userCollection.document(userId).getDocument(as: User.self)
+        let createdQuestions = try await getUserCreatedQuestionIDS(with: user)
+        let answeredQuestions = try await getUserAnsweredQuestionIDS(with: user)
+
+        user.createdQuestionID = createdQuestions!
+        user.answeredQuestionID = answeredQuestions!
         
         return user
     }
@@ -90,20 +94,19 @@ class NetworkService
         let optionsCollection  = db.collection(DatabaseNames.optionTable)
         
         let questionData = Question(userId: "", title: "", options: [], answeredUserIDs: [],createdAt: 10)
-        
         let question = try await questionCollection.document(questionId).getDocument(as: QuestionQuery.self)
-        questionData.userId = question.userId
+        questionData.createdUserID = question.createdUserID
         questionData.title = question.title
         questionData.createdAt = question.createdAt
         
-        questionData.userInfo = try await getUserInfo(with: questionData.userId)
+        questionData.createdUserInfo = try await getUserInfo(with: questionData.createdUserID)
         
-        for i in 0..<question.optionIDs.count
+        for i in 0..<question.optionID.count
         {
-            let option = try await optionsCollection.document(question.optionIDs[i]).getDocument(as: Option.self)
-            questionData.options.append(option)
+            let option = try await optionsCollection.document(question.optionID[i]).getDocument(as: Option.self)
+            questionData.option.append(option)
         }
-        
+        questionData.answeredUserID = question.answeredUserID
         return questionData
     }
     
@@ -114,24 +117,57 @@ class NetworkService
         let question = try await optionsCollection.document(optionId).getDocument(as: Option.self)
         return question
     }
+    func getUserCreatedQuestionIDS(with user : User) async throws -> [String]?
+    {
+        let questionCollection  = db.collection(DatabaseNames.questionTable)
+        
+        var questionIDS : [String] = []
+        let question = try await questionCollection.whereField("createdUserID", isEqualTo: user.id).getDocuments()
+        
+        for document in question.documents
+        {
+            let doc = try document.data(as: QuestionQuery.self)
+            questionIDS.append(document.documentID)
+            
+        }
+        
+        return questionIDS
+    }
+    
+    func getUserAnsweredQuestionIDS(with user : User) async throws -> [String]?
+    {
+        let questionCollection  = db.collection(DatabaseNames.questionTable)
+        
+        var questionIDS : [String] = []
+        let question = try await questionCollection.whereField("answeredUserID", arrayContains: user.id).getDocuments()
+        
+        for document in question.documents
+        {
+            let doc = try document.data(as: QuestionQuery.self)
+            questionIDS.append(document.documentID)
+            
+        }
+        
+        return questionIDS
+    }
     
     func getUserCreatedQuestions(with user : User) async throws -> [Question]?
     {
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
         var questions : [Question] = []
-        let question = try await questionCollection.whereField("userId", isEqualTo: user.id).getDocuments()
+        let question = try await questionCollection.whereField("createdUserID", isEqualTo: user.id).getDocuments()
         
         for document in question.documents
         {
             let doc = try document.data(as: QuestionQuery.self)
-            let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
-            questionData.userInfo = try await getUserInfo(with: questionData.userId)
+            let questionData = Question(userId: doc.createdUserID, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+            questionData.createdUserInfo = try await getUserInfo(with: questionData.createdUserID)
             
             
-            for opt in doc.optionIDs
+            for opt in doc.optionID
             {
-                try await questionData.options.append(getOption(with: opt)!)
+                try await questionData.option.append(getOption(with: opt)!)
             }
             questions.append(questionData)
             
@@ -145,18 +181,18 @@ class NetworkService
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
         var questions : [Question] = []
-        let question = try await questionCollection.whereField("answeredUserIDs", arrayContains: user.id).getDocuments()
+        let question = try await questionCollection.whereField("answeredUserID", arrayContains: user.id).getDocuments()
         
         for document in question.documents
         {
             let doc = try document.data(as: QuestionQuery.self)
-            let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
-            questionData.userInfo = try await getUserInfo(with: questionData.userId)
+            let questionData = Question(userId: doc.createdUserID, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+            questionData.createdUserInfo = try await getUserInfo(with: questionData.createdUserID)
             
             
-            for opt in doc.optionIDs
+            for opt in doc.optionID
             {
-                try await questionData.options.append(getOption(with: opt)!)
+                try await questionData.option.append(getOption(with: opt)!)
             }
             questions.append(questionData)
             
@@ -174,22 +210,22 @@ class NetworkService
         
         guard let user = Auth.auth().currentUser else { return nil}
         var questions : [Question] = []
-        let question = try await questionCollection.whereField("userId", isNotEqualTo: user.uid).getDocuments()
+        let question = try await questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).getDocuments()
         
         for document in question.documents
         {
             let doc = try document.data(as: QuestionQuery.self)
-            if doc.answeredUserIDs.contains(user.uid)
+            if doc.answeredUserID.contains(user.uid)
             {
                 continue
             }
-            let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
-            questionData.userInfo = try await getUserInfo(with: questionData.userId)
+            let questionData = Question(userId: doc.createdUserID, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+            questionData.createdUserInfo = try await getUserInfo(with: questionData.createdUserID)
             
             
-            for opt in doc.optionIDs
+            for opt in doc.optionID
             {
-                try await questionData.options.append(getOption(with: opt)!)
+                try await questionData.option.append(getOption(with: opt)!)
             }
             questions.append(questionData)
             
@@ -204,7 +240,7 @@ class NetworkService
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
         guard let user = Auth.auth().currentUser else { return completion([]) }
-        let question =  questionCollection.whereField("userId", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
+        let question =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents
             else
             {
@@ -214,22 +250,23 @@ class NetworkService
             Task
             {@MainActor in 
                 var questions : [Question] = []
+                print(documents.count)
                 for document in documents
                 {
                     do{
                         let doc = try document.data(as: QuestionQuery.self)
-                        if doc.answeredUserIDs.contains(user.uid)
+                        if doc.answeredUserID.contains(user.uid)
                         {
                             continue
                         }
-                        let questionData = Question(userId: doc.userId, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+                        let questionData = Question(userId: doc.createdUserID, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
                         
-                        questionData.userInfo = try await self.getUserInfo(with: questionData.userId)
+                        questionData.createdUserInfo = try await self.getUserInfo(with: questionData.createdUserID)
                         
                         
-                        for opt in doc.optionIDs
+                        for opt in doc.optionID
                         {
-                            try await questionData.options.append(self.getOption(with: opt)!)
+                            try await questionData.option.append(self.getOption(with: opt)!)
                         }
                         
                         

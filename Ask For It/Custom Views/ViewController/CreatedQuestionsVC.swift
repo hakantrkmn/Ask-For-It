@@ -8,11 +8,11 @@
 import UIKit
 import SnapKit
 
-class CreatedQuestionsVC: UIViewController
+class CreatedQuestionsVC: SpinnerBase
 {
     var questions : [Question]?
     var questionsTable = UITableView()
-    
+    var user : User?
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -20,17 +20,23 @@ class CreatedQuestionsVC: UIViewController
         questionsTable.dataSource = self
     }
    
+    override func viewWillAppear(_ animated: Bool) {
+        configure(with: user!)
+    }
+    
     
     func configure(with user : User)
     {
         Task{
-            
+            self.activityIndicatorBegin()
             do{
                 questions = try await NetworkService.shared.getUserCreatedQuestions(with: user)
                 questionsTable.reloadData()
+                self.activityIndicatorEnd()
             }
             catch{
-                
+                self.activityIndicatorEnd()
+
             }
         }
         
@@ -68,7 +74,19 @@ extension CreatedQuestionsVC : UITableViewDelegate,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(FeedVC(), animated: true)
+        if UserInfo.shared.user.answeredQuestionID.contains(questions![indexPath.row].option.first!.questionID)
+        {
+            let vc = QuestionDetailVC()
+            vc.vm.questionID = questions![indexPath.row].option.first!.questionID
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else
+        {
+            let vc = AnswerQuestionVC()
+            vc.vm.questionId = questions![indexPath.row].option.first!.questionID
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     

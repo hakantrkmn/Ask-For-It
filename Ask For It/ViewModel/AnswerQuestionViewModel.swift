@@ -10,16 +10,17 @@ import Foundation
 
 class AnswerQuestionViewModel
 {
+    var questionId : String?
     var question : Question?
     
-    func getQuestion(with questionId : String)  async throws
+    func getQuestion()  async throws
     {
-        question = try await NetworkService.shared.getQuestion(with: questionId)
+        question = try await NetworkService.shared.getQuestion(with: questionId!)
     }
     
     func answerQuestion(index : Int) async throws
     {
-        guard let id = question?.options.first!.questionId else {return}
+        guard let id = question?.option.first!.questionID else {return}
         try await NetworkService.shared.answerQuestion(with: id, optionIndex: index)
     }
     

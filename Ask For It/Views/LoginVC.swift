@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginVC: UIViewController {
+class LoginVC: SpinnerBase {
     
     private var header = AuthHeaderView(title: "Sign In", subTitle: "Sign in to your account")
     private var emailTextField = CustomTextField(fieldType: .email)
@@ -33,8 +33,30 @@ class LoginVC: UIViewController {
     @objc func signInButtonTapped()
     {
         guard let email = emailTextField.text , let password = passwordTextField.text else {return}
-        
-        vm.signIn(with: LoginUserRequest(email: email, password: password), for: self)
+        print("çalışması laızm")
+        self.activityIndicatorBegin()
+        Task
+        {@MainActor in
+            do
+            {
+                try await vm.signIn(with: LoginUserRequest(email: email, password: password), for: self)
+                self.activityIndicatorEnd()
+                let feed = TabBarController()
+                feed.modalPresentationStyle = .fullScreen
+                self.present(feed, animated: true)
+                print("bitmesi laızm")
+
+
+            }
+            catch{
+                AlertManager.showBasicAlert(on: self, title: "Something Wrong", message: error.localizedDescription)
+                self.activityIndicatorEnd()
+                print("bitmesi laızm")
+
+
+            }
+        }
+       
         
     }
     

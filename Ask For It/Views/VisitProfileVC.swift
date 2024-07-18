@@ -8,51 +8,32 @@
 import UIKit
 import SnapKit
 
-class ProfileVC: UIViewController {
+class VisitProfileVC: UIViewController {
     
-    var profileSummary = ProfileSummaryView(with: UserInfo.shared.user)
+    var user : User?
+    var profileSummary = ProfileSummaryView()
     
-    var segment = UISegmentedControl(items: ["Created Questions","Answered Questions"])
-    var pageView = ProfileQuestionPageVC(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    var segment = UISegmentedControl(items: ["Created Questions"])
+    var pageView = CreatedQuestionsVC()
     
     
-    override func viewDidLoad() 
+    override func viewDidLoad()
     {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        pageView.user = user!
         setupUI()
         configureUI()
-        var logoutButton = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.right"), style: .plain, target: self, action: #selector(logoutTapped))
-        logoutButton.tintColor = .red
-        navigationItem.rightBarButtonItem = logoutButton
-        
-    }
-    
-    @objc func logoutTapped()
-    {
-        do
-        {
-            try AuthService.logoutUser()
-            let vc = LoginVC()
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        }
-        catch{
-            print(error)
-        }
+        profileSummary.set(with: user!)
+        pageView.configure(with: user!)
+        dump(user)
     }
     
     
-    
-    @objc func segmentAction(_ segmentedControl: UISegmentedControl)
-    {
-        pageView.changePage(index: segmentedControl.selectedSegmentIndex)
-    }
     
     func configureUI()
     {
         segment.selectedSegmentIndex = 0
-        segment.addTarget(self, action: #selector(segmentAction(_:)), for: .valueChanged)
         
     }
     

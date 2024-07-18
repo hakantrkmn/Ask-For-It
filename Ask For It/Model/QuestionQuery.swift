@@ -11,38 +11,38 @@ import FirebaseFirestore
 
 class QuestionQuery : Codable
 {
-    var userId : String
+    var createdUserID : String
     var title : String
-    var optionIDs : [String]
-    var answeredUserIDs : [String]
+    var optionID : [String]
+    var answeredUserID : [String]
     var createdAt : TimeInterval
     
     init(userId: String, title: String, optionIDs: [String], answeredUserIDs: [String], createdAt: TimeInterval) {
-        self.userId = userId
+        self.createdUserID = userId
         self.title = title
-        self.optionIDs = optionIDs
-        self.answeredUserIDs = answeredUserIDs
+        self.optionID = optionIDs
+        self.answeredUserID = answeredUserIDs
         self.createdAt = createdAt
     }
 }
 
 class Question : Codable
 {
-    var userId : String
+    var createdUserID : String
     var title : String
-    var options : [Option]
-    var answeredUserIDs : [String]
+    var option : [Option]
+    var answeredUserID : [String]
     var createdAt : TimeInterval
-    var userInfo : User?
+    var createdUserInfo : User?
     
     
     
     init(userId: String, title: String, options: [Option], answeredUserIDs: [String], createdAt: TimeInterval, userInfo: User? = nil) {
-        self.userId = userId
+        self.createdUserID = userId
         self.title = title
-        self.options = options
-        self.answeredUserIDs = answeredUserIDs
+        self.option = options
+        self.answeredUserID = answeredUserIDs
         self.createdAt = createdAt
-        self.userInfo = userInfo
+        self.createdUserInfo = userInfo
     }
 }

@@ -27,11 +27,12 @@ class ProfileQuestionPageVC: UIPageViewController {
     func setPages()
     {
         let vc = CreatedQuestionsVC()
-        vc.configure(with: UserInfo.shared.user)
+        vc.user = UserInfo.shared.user
         pages.append(vc)
         
         let vc2 = AnsweredQuestionsVC()
-        vc2.configure(with: UserInfo.shared.user)
+        vc2.user = UserInfo.shared.user
+
         pages.append(vc2)
     }
     

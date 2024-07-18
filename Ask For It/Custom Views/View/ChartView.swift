@@ -26,11 +26,11 @@ class ChartView: PieChartView {
     
     func configure(with question : Question)
     {
-        for i in 0..<question.options.count
+        for i in 0..<question.option.count
         {
-            var data = PieChartDataEntry(value: Double(question.options[i].userIDs.count))
+            let data = PieChartDataEntry(value: Double(question.option[i].votedUserID.count))
             
-            data.label = question.options[i].title
+            data.label = question.option[i].title
             
             numberofDownloadEntry.append(data)
         }

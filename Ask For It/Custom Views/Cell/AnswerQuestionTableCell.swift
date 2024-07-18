@@ -31,8 +31,33 @@ class AnswerQuestionTableCell: UITableViewCell {
     {
         contentView.addSubview(option)
         option.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(36)
+            make.centerY.equalToSuperview()
         }
+        
+        option.layer.borderWidth = 1
+        option.layer.cornerRadius = 18
+        option.textAlignment = .center
+        option.clipsToBounds = true
+
+        selectionStyle = .none
+        option.font = .systemFont(ofSize: 20)
+    }
+    
+    func cellSelected()
+    {
+        self.option.backgroundColor = .systemBlue
+
+        
+        
+    }
+    
+    func cellDeSelected()
+    {
+        self.option.backgroundColor = .clear
+
+        
     }
 
 }

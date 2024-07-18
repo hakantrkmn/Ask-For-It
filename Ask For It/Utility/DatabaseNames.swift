@@ -9,8 +9,8 @@ import Foundation
 
 enum DatabaseNames
 {
-    static let questionTable = "Questions"
-    static let optionTable = "Options"
-    static let userTable = "users"
+    static let questionTable = "Question"
+    static let optionTable = "Option"
+    static let userTable = "User"
 
 }

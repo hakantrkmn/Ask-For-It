@@ -12,7 +12,8 @@ class UserInfo
 {
     static let shared = UserInfo()
     
-    var user = User(id: "" ,email: "", username: "")
+    var user = User(id: "", email: "", username: "", answeredQuestionID: [], createdQuestionID: [
+    ])
     
     init() {
         
