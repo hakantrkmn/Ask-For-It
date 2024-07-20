@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 
-class LoginVC: SpinnerBase {
+class LoginVC: SpinnerBase 
+{
     
     private var header = AuthHeaderView(title: "Sign In", subTitle: "Sign in to your account")
     private var emailTextField = CustomTextField(fieldType: .email)
@@ -25,38 +26,34 @@ class LoginVC: SpinnerBase {
         setupUI()
         self.signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         self.newUserButton.addTarget(self, action: #selector(newUserButtonTapped), for: .touchUpInside)
-        emailTextField.delegate = self
-        
         
     }
     
     @objc func signInButtonTapped()
     {
         guard let email = emailTextField.text , let password = passwordTextField.text else {return}
-        print("çalışması laızm")
         self.activityIndicatorBegin()
         Task
-        {@MainActor in
+        {
             do
             {
-                try await vm.signIn(with: LoginUserRequest(email: email, password: password), for: self)
+                try await self.vm.signIn(with: LoginUserRequest(email: email, password: password), for: self)
                 self.activityIndicatorEnd()
                 let feed = TabBarController()
                 feed.modalPresentationStyle = .fullScreen
                 self.present(feed, animated: true)
-                print("bitmesi laızm")
-
-
+                
             }
-            catch{
+            catch let error {
+                print(error)
+                
                 AlertManager.showBasicAlert(on: self, title: "Something Wrong", message: error.localizedDescription)
                 self.activityIndicatorEnd()
-                print("bitmesi laızm")
-
-
+                
+                
             }
         }
-       
+        
         
     }
     
@@ -107,25 +104,25 @@ class LoginVC: SpinnerBase {
     }
 }
 
-extension LoginVC : UITextFieldDelegate
-{
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if !Validator.isValidEmail(for: emailTextField.text!)
-        {
-            UIView.animate(withDuration: 0.2)
-            {
-                self.emailTextField.backgroundColor = .red
-            } completion: { isDone in
-                if isDone
-                {
-                    UIView.animate(withDuration: 0.2)
-                    {
-                        self.emailTextField.backgroundColor = .secondarySystemBackground
-                    }
-                }
-            }
-            
-        }
-        
-    }
-}
+//extension LoginVC : UITextFieldDelegate
+//{
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if !Validator.isValidEmail(for: emailTextField.text!)
+//        {
+//            UIView.animate(withDuration: 0.2)
+//            {
+//                self.emailTextField.backgroundColor = .red
+//            } completion: { isDone in
+//                if isDone
+//                {
+//                    UIView.animate(withDuration: 0.2)
+//                    {
+//                        self.emailTextField.backgroundColor = .secondarySystemBackground
+//                    }
+//                }
+//            }
+//            
+//        }
+//        
+//    }
+//}

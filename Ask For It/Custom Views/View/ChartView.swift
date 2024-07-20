@@ -39,7 +39,7 @@ class ChartView: PieChartView {
         
         
         
-        let charSet = PieChartDataSet(entries: numberofDownloadEntry , label: "hakan")
+        let charSet = PieChartDataSet(entries: numberofDownloadEntry , label: question.createdUserInfo?.username ?? "")
         
         let charData = PieChartData(dataSet: charSet)
        

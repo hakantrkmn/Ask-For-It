@@ -26,6 +26,8 @@
 		490B2F152BEAE4370046B6CA /* ProfileQuestionPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F142BEAE4370046B6CA /* ProfileQuestionPageVC.swift */; };
 		490B2F172BEB667C0046B6CA /* ProfileSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F162BEB667C0046B6CA /* ProfileSummaryView.swift */; };
 		490B2F1B2BEB72CC0046B6CA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490B2F1A2BEB72CC0046B6CA /* ChartView.swift */; };
+		490ED7032C4C330500657458 /* DetailedAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED7022C4C330500657458 /* DetailedAnswerView.swift */; };
+		490ED7052C4C486000657458 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED7042C4C486000657458 /* UIColor+Ext.swift */; };
 		4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822C2BBAD3E90074004A /* AppDelegate.swift */; };
 		4961822F2BBAD3E90074004A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822E2BBAD3E90074004A /* SceneDelegate.swift */; };
 		496182362BBAD3EA0074004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 496182352BBAD3EA0074004A /* Assets.xcassets */; };
@@ -79,6 +81,8 @@
 		490B2F142BEAE4370046B6CA /* ProfileQuestionPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileQuestionPageVC.swift; sourceTree = "<group>"; };
 		490B2F162BEB667C0046B6CA /* ProfileSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSummaryView.swift; sourceTree = "<group>"; };
 		490B2F1A2BEB72CC0046B6CA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		490ED7022C4C330500657458 /* DetailedAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAnswerView.swift; sourceTree = "<group>"; };
+		490ED7042C4C486000657458 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		496182292BBAD3E90074004A /* Ask For It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ask For It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4961822C2BBAD3E90074004A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4961822E2BBAD3E90074004A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 				49D8B87F2BBAD8CA00B49C46 /* AuthHeaderView.swift */,
 				490B2F162BEB667C0046B6CA /* ProfileSummaryView.swift */,
 				490B2F1A2BEB72CC0046B6CA /* ChartView.swift */,
+				490ED7022C4C330500657458 /* DetailedAnswerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 			children = (
 				49D8B8882BBADAF900B49C46 /* UIViewController+Ext.swift */,
 				49D8B88A2BBADB1700B49C46 /* UIView+Ext.swift */,
+				490ED7042C4C486000657458 /* UIColor+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -400,6 +406,7 @@
 				490B2EF52BE7C4040046B6CA /* QuestionDetailViewModel.swift in Sources */,
 				49D8B8AD2BBC3F0300B49C46 /* CreateQuestionVC.swift in Sources */,
 				49D8B88F2BBAE11300B49C46 /* CustomTextField.swift in Sources */,
+				490ED7032C4C330500657458 /* DetailedAnswerView.swift in Sources */,
 				490B2F172BEB667C0046B6CA /* ProfileSummaryView.swift in Sources */,
 				49750C492BEBD85A00768B60 /* SpinnerBase.swift in Sources */,
 				49D8B8A52BBB195E00B49C46 /* LoginUserRequest.swift in Sources */,
@@ -431,6 +438,7 @@
 				490B2F0C2BEA6E680046B6CA /* DatabaseNames.swift in Sources */,
 				49BD4C3F2C466FF80067A4BB /* VisitProfileVC.swift in Sources */,
 				49D8B8782BBAD61400B49C46 /* TabBarController.swift in Sources */,
+				490ED7052C4C486000657458 /* UIColor+Ext.swift in Sources */,
 				490B2EEF2BE7BA420046B6CA /* RegisterViewModel.swift in Sources */,
 				49D8B8742BBAD58F00B49C46 /* LoginVC.swift in Sources */,
 				49D8B8AF2BBC41DB00B49C46 /* OptionsTableCell.swift in Sources */,

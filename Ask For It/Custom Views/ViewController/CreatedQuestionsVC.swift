@@ -13,6 +13,7 @@ class CreatedQuestionsVC: SpinnerBase
     var questions : [Question]?
     var questionsTable = UITableView()
     var user : User?
+    var emptyText = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -24,17 +25,28 @@ class CreatedQuestionsVC: SpinnerBase
         configure(with: user!)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.activityIndicatorEnd()
+
+    }
+    
     
     func configure(with user : User)
     {
+        emptyText.isHidden = true
+        emptyText.text = "Opps... There is no created question"
+        emptyText.textAlignment = .center
         Task{
             self.activityIndicatorBegin()
+
             do{
                 questions = try await NetworkService.shared.getUserCreatedQuestions(with: user)
+                emptyText.isHidden = !questions!.isEmpty
                 questionsTable.reloadData()
                 self.activityIndicatorEnd()
             }
             catch{
+                emptyText.isHidden = false
                 self.activityIndicatorEnd()
 
             }
@@ -44,9 +56,12 @@ class CreatedQuestionsVC: SpinnerBase
     
     func setUI()
     {
-        view.addSubview(questionsTable)
+        view.addSubViews(questionsTable,emptyText)
         
         questionsTable.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        emptyText.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -74,7 +89,7 @@ extension CreatedQuestionsVC : UITableViewDelegate,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if UserInfo.shared.user.answeredQuestionID.contains(questions![indexPath.row].option.first!.questionID)
+        if UserInfo.shared.user.createdQuestionID!.contains(questions![indexPath.row].option.first!.questionID)
         {
             let vc = QuestionDetailVC()
             vc.vm.questionID = questions![indexPath.row].option.first!.questionID

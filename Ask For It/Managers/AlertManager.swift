@@ -10,7 +10,7 @@ import UIKit
 
 class AlertManager
 {
-    public static func showBasicAlert(on vc : UIViewController,title : String , message : String)
+    @MainActor public static func showBasicAlert(on vc : UIViewController,title : String , message : String)
     {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default))
@@ -22,31 +22,36 @@ class AlertManager
 extension AlertManager
 {
     // MARK: Auth Alerts
-    public static func showInvalidEmailAlert(on vc : UIViewController)
+    @MainActor public static func showInvalidEmailAlert(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "Invalid Email", message: "Please check your email")
     }
     
-    public static func showInvalidPasswordAlert(on vc : UIViewController)
+    @MainActor public static func showInvalidPasswordAlert(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "Invalid Password", message: "Please check your password")
     }
     
-    public static func showInvalidUsernameAlert(on vc : UIViewController)
+    @MainActor public static func showInvalidUsernameAlert(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "Invalid Username", message: "Please check your username")
     }
     
-    public static func showNotGoodPassword(on vc : UIViewController)
+    @MainActor public static func showNotGoodPassword(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "The password must be 6 characters long or more.", message: "Please check your password")
+    }
+    
+    @MainActor public static func emailAlreadyInUse(on vc : UIViewController)
+    {
+        self.showBasicAlert(on: vc, title: "The email address is already in use by another account.", message: "Please check your email")
     }
 }
 
 extension AlertManager
 {
     // MARK: Create question Alerts
-    public static func showQuestionCreationFailed(on vc : UIViewController)
+    @MainActor public static func showQuestionCreationFailed(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "Cannot Create Question", message: "Something wrong")
     }
@@ -59,7 +64,7 @@ extension AlertManager
 extension AlertManager
 {
     // MARK: Answer question Alerts
-    public static func showAnswerFailed(on vc : UIViewController)
+    @MainActor public static func showAnswerFailed(on vc : UIViewController)
     {
         self.showBasicAlert(on: vc, title: "Cannot Answered", message: "Something wrong")
     }

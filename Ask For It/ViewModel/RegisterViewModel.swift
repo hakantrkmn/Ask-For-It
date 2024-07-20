@@ -27,8 +27,15 @@ class RegisterViewModel
                 feed.modalPresentationStyle = .fullScreen
                 vc.present(feed, animated: true)
             }
-            catch let error{
-                AlertManager.showNotGoodPassword(on: vc)
+            catch let error as AuthErrorCode{
+                if error.errorCode == 17007
+                {
+                    AlertManager.emailAlreadyInUse(on: vc)
+                }
+                else if error.errorCode == 17026
+                {
+                    AlertManager.showNotGoodPassword(on: vc)
+                }
             }
             
             

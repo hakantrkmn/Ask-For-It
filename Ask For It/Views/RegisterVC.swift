@@ -15,7 +15,7 @@ class RegisterVC: SpinnerBase {
     private var passwordLabel = CustomTextField(fieldType: .password)
     private let signUpButton = CustomButton(title: "Sign Up", hasBackground: true, fontSize: .Big)
     private let signInButton = CustomButton(title: "Already have an account? Sign in.", hasBackground: false, fontSize: .Small)
-
+    
     let vm = RegisterViewModel()
     
     
@@ -26,25 +26,26 @@ class RegisterVC: SpinnerBase {
         setupUI()
         self.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         self.signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
-
+        
     }
-  
+    
     @objc func signUpButtonTapped()
     {
         guard let email = emailLabel.text , let password = passwordLabel.text , let username = usernameLabel.text else {return}
         self.activityIndicatorBegin()
-        Task { 
+        Task {
             do{
                 try await  vm.signUp(for: RegisterUserRequest(username: username, email: email, password: password), for: self)
                 self.activityIndicatorEnd()
-
+                
             }
-            catch
+            catch let error
             {
+                print(error)
                 AlertManager.showBasicAlert(on: self, title: "Something Wrong", message: "Wrong Password")
                 self.activityIndicatorEnd()
-
-
+                
+                
             }
         }
         
@@ -57,9 +58,9 @@ class RegisterVC: SpinnerBase {
         present(vc, animated: true)
     }
     
-   
     
-   
+    
+    
     private func setupUI()
     {
         view.addSubViews(header,usernameLabel,emailLabel,passwordLabel,signUpButton,signInButton)

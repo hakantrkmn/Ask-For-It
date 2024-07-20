@@ -9,7 +9,8 @@ import UIKit
 import DGCharts
 import SnapKit
 
-class QuestionDetailVC: UIViewController {
+class QuestionDetailVC: UIViewController 
+{
     
     var vm = QuestionDetailViewModel()
     
@@ -18,8 +19,8 @@ class QuestionDetailVC: UIViewController {
     
     var chartView = ChartView()
     var votedUserAmount = UILabel()
-   var createdUser = UILabel()
-    
+    var createdUser = UILabel()
+    var detailedAnswerView = DetailedAnswerView()
     
     override func viewDidLoad()
     {
@@ -31,10 +32,18 @@ class QuestionDetailVC: UIViewController {
         
         Task{
             try await vm.getQuestion()
+            if vm.question?.createdUserID == UserInfo.shared.user.id
+            {
+                detailedAnswerView.question = vm.question
+                detailedAnswerView.configure()
+            }
+            else
+            {
+                detailedAnswerView.isHidden = true
+            }
             configure()
             
         }
-
         
     }
     
@@ -48,14 +57,13 @@ class QuestionDetailVC: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         createdUser.isUserInteractionEnabled = true
-
-        tapGesture.cancelsTouchesInView = true // Bu satır önemli
+        
         createdUser.addGestureRecognizer(tapGesture)
     }
     
-    @objc func labelTapped() {
-
-            // İkinci view controller'a geçiş
+    @objc func labelTapped() 
+    {
+        
         Task
         {
             do
@@ -68,13 +76,13 @@ class QuestionDetailVC: UIViewController {
             {
                 print(error.localizedDescription)
             }
-           
+            
         }
-        }
+    }
     
     func setUI()
     {
-        view.addSubViews(chartView,votedUserAmount,createdUser)
+        view.addSubViews(chartView,votedUserAmount,createdUser,detailedAnswerView)
         
         chartView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -91,6 +99,12 @@ class QuestionDetailVC: UIViewController {
         createdUser.snp.makeConstraints { make in
             make.top.equalTo(votedUserAmount.snp.bottom)
             make.leading.trailing.equalToSuperview()
+        }
+        
+        detailedAnswerView.snp.makeConstraints { make in
+            make.top.equalTo(createdUser.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(view.frame.width / 8)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
         }
     }
     

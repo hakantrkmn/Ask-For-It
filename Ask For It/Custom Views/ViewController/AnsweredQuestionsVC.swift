@@ -13,6 +13,8 @@ class AnsweredQuestionsVC: SpinnerBase
     var questions : [Question]?
     var questionsTable = UITableView()
     var user : User?
+    var emptyText = UILabel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -24,16 +26,25 @@ class AnsweredQuestionsVC: SpinnerBase
         configure(with: user!)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.activityIndicatorEnd()
+
+    }
     func configure(with user : User)
     {
+        emptyText.isHidden = true
+        emptyText.text = "Inactive user :((("
+        emptyText.textAlignment = .center
         Task{
             self.activityIndicatorBegin()
             do{
                 questions = try await NetworkService.shared.getUserAnsweredQuestions(with: user)
+                emptyText.isHidden = !questions!.isEmpty
                 questionsTable.reloadData()
                 self.activityIndicatorEnd()
             }
             catch{
+                emptyText.isHidden = true
                 self.activityIndicatorEnd()
 
             }
@@ -43,9 +54,13 @@ class AnsweredQuestionsVC: SpinnerBase
     
     func setUI()
     {
-        view.addSubview(questionsTable)
+        view.addSubViews(questionsTable,emptyText)
         
         questionsTable.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        emptyText.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }

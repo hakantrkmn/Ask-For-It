@@ -40,7 +40,7 @@ class AnswerQuestionTableCell: UITableViewCell {
         option.layer.cornerRadius = 18
         option.textAlignment = .center
         option.clipsToBounds = true
-
+        option.layer.borderColor = UIColor.systemBackground.inverted.cgColor
         selectionStyle = .none
         option.font = .systemFont(ofSize: 20)
     }

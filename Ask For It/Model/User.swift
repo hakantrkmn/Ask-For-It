@@ -13,7 +13,7 @@ struct User : Codable
     let id : String
     let email : String
     let username : String
-    var answeredQuestionID : [String]
-    var createdQuestionID : [String]
+    var answeredQuestionID : [String]?
+    var createdQuestionID : [String]?
 
 }

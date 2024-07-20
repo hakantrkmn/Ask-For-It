@@ -12,5 +12,7 @@ struct RegisterUserRequest
     var username : String
     var email : String
     var password :String
+    var answeredQuestionID : [String]?
+    var createdQuestionID : [String]?
 }
 

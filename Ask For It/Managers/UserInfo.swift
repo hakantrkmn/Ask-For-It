@@ -14,9 +14,6 @@ class UserInfo
     
     var user = User(id: "", email: "", username: "", answeredQuestionID: [], createdQuestionID: [
     ])
-    
-    init() {
-        
-    }
+  
     
 }

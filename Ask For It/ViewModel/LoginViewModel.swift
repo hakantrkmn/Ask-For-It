@@ -29,7 +29,7 @@ class LoginViewModel
         }
         else
         {
-            AlertManager.showInvalidEmailAlert(on: vc)
+            await AlertManager.showInvalidEmailAlert(on: vc)
         }
         
     }

@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
-class FeedVC: SpinnerBase {
+class FeedVC: SpinnerBase 
+{
     
     var feedTable = UITableView()
     
@@ -22,29 +23,22 @@ class FeedVC: SpinnerBase {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title  = "Feed"
-
-    
-        
     }
     
-
+    
     
     private func configureUI()
     {
         feedTable.register(FeedTableCell.self, forCellReuseIdentifier: FeedTableCell.identifier)
         feedTable.dataSource = self
         feedTable.delegate = self
-     
-        self.activityIndicatorBegin()
+        
         vm.getQuestions {
             self.feedTable.reloadData()
-            //self.activityIndicatorEnd()
         }
         
-        
-
-       
     }
+    
     private func setupUI()
     {
         view.addSubview(feedTable)
@@ -68,13 +62,14 @@ class FeedVC: SpinnerBase {
 
 extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
 {
-    func profileTapped(_ user: String) {
+    func profileTapped(_ user: String)
+    {
         Task
         {
             do
             {
                 print(user)
-                var vc = VisitProfileVC()
+                let vc = VisitProfileVC()
                 vc.user = try await NetworkService.shared.getUserInfo(with: user)
                 navigationController?.pushViewController(vc, animated: true)
             }
@@ -82,16 +77,18 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
             {
                 print("kalnsdşkasd")
             }
-           
+            
         }
         
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return vm.questions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
+    {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableCell.identifier, for: indexPath) as? FeedTableCell else {return UITableViewCell() }
         cell.set(  question: vm.questions[indexPath.row])
         cell.delegate = self
@@ -99,21 +96,23 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
         return 100
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) 
+    {
         guard let id = vm.questions[indexPath.row].option.first?.questionID else { return}
         
-           let vc = AnswerQuestionVC()
-                vc.vm.questionId = id
-                navigationController?.pushViewController(vc, animated: true)
-            
-            
-            tableView.deselectRow(at: indexPath, animated: true)
-            
+        let vc = AnswerQuestionVC()
+        vc.vm.questionId = id
+        navigationController?.pushViewController(vc, animated: true)
+        
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
     

@@ -11,6 +11,8 @@ struct LoginUserRequest
 {
     let email : String
     let password : String
+    var answeredQuestionID : [String]?
+    var createdQuestionID : [String]?
 }
 
 

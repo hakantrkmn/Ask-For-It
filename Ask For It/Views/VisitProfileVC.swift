@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 
-class VisitProfileVC: UIViewController {
+class VisitProfileVC: UIViewController 
+{
     
     var user : User?
     var profileSummary = ProfileSummaryView()
@@ -26,7 +27,6 @@ class VisitProfileVC: UIViewController {
         configureUI()
         profileSummary.set(with: user!)
         pageView.configure(with: user!)
-        dump(user)
     }
     
     
@@ -34,7 +34,8 @@ class VisitProfileVC: UIViewController {
     func configureUI()
     {
         segment.selectedSegmentIndex = 0
-        
+        segment.applyWhiteBackgroundColor()
+        segment.selectedSegmentTintColor = .systemGray6
     }
     
     private func setupUI()
@@ -59,14 +60,12 @@ class VisitProfileVC: UIViewController {
             make.height.equalTo(200)
         }
         
-       
-        
         addChild(pageView)
         pageView.didMove(toParent: self)
         
     }
     
-   
+    
     
 }
 

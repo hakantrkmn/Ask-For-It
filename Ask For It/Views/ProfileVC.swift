@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController 
+{
     
     var profileSummary = ProfileSummaryView(with: UserInfo.shared.user)
     
@@ -16,13 +17,13 @@ class ProfileVC: UIViewController {
     var pageView = ProfileQuestionPageVC(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     
-    override func viewDidLoad() 
+    override func viewDidLoad()
     {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
         configureUI()
-        var logoutButton = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.right"), style: .plain, target: self, action: #selector(logoutTapped))
+        let logoutButton = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.right"), style: .plain, target: self, action: #selector(logoutTapped))
         logoutButton.tintColor = .red
         navigationItem.rightBarButtonItem = logoutButton
         
@@ -53,6 +54,8 @@ class ProfileVC: UIViewController {
     {
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(segmentAction(_:)), for: .valueChanged)
+        segment.applyWhiteBackgroundColor()
+        segment.selectedSegmentTintColor = .systemGray6
         
     }
     
@@ -78,14 +81,14 @@ class ProfileVC: UIViewController {
             make.height.equalTo(200)
         }
         
-       
+        
         
         addChild(pageView)
         pageView.didMove(toParent: self)
         
     }
     
-   
+    
     
 }
 

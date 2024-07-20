@@ -20,17 +20,6 @@ extension UIView
 }
 
 
-extension UIColor {
-    static var random: UIColor {
-        return UIColor(
-            red: .random(in: 0...1),
-            green: .random(in: 0...1),
-            blue: .random(in: 0...1),
-            alpha: 1.0
-        )
-    }
-}
-
 extension TimeInterval
 {
     func toString() -> String
@@ -43,3 +32,23 @@ extension TimeInterval
     }
 }
 
+extension UISegmentedControl {
+
+    func applyWhiteBackgroundColor() {
+        // for remove bottom shadow of selected element
+        self.selectedSegmentTintColor = selectedSegmentTintColor?.withAlphaComponent(0.99)
+        if #available(iOS 13.0, *) {
+            //just to be sure it is full loaded
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                for i in 0 ..< (self.numberOfSegments)  {
+                    let backgroundSegmentView = self.subviews[i]
+                    //it is not enogh changing the background color. It has some kind of shadow layer
+                    backgroundSegmentView.isHidden = true
+                }
+            }
+        }
+    }
+}

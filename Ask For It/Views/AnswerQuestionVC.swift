@@ -11,7 +11,7 @@ import SnapKit
 
 class AnswerQuestionVC: SpinnerBase
 {
-
+    
     var vm = AnswerQuestionViewModel()
     
     let questionTitle = UILabel()
@@ -19,7 +19,7 @@ class AnswerQuestionVC: SpinnerBase
     
     let answerButton = UIButton()
     var previouslySelectedIndexPath: IndexPath?
-
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -31,6 +31,7 @@ class AnswerQuestionVC: SpinnerBase
         
         Task{
             self.activityIndicatorBegin()
+            
             do{
                 try await vm.getQuestion()
                 questionTitle.text = vm.question?.title
@@ -38,9 +39,10 @@ class AnswerQuestionVC: SpinnerBase
                 answerButton.isHidden = false
                 self.activityIndicatorEnd()
             }
-            catch{
+            catch
+            {
                 self.activityIndicatorEnd()
-
+                
             }
         }
         
@@ -53,7 +55,7 @@ class AnswerQuestionVC: SpinnerBase
         optionsTable.dataSource = self
         optionsTable.register(AnswerQuestionTableCell.self, forCellReuseIdentifier: AnswerQuestionTableCell.identifier)
         optionsTable.separatorStyle = .none
-
+        
         questionTitle.font = .systemFont(ofSize: 25)
         questionTitle.textAlignment = .center
         answerButton.setTitle("Answer", for: .normal)
@@ -63,7 +65,7 @@ class AnswerQuestionVC: SpinnerBase
         
         answerButton.isHidden = true
         answerButton.addTarget(self, action: #selector(answerTapped), for: .touchUpInside)
-
+        
         optionsTable.separatorStyle = .none
     }
     
@@ -78,16 +80,16 @@ class AnswerQuestionVC: SpinnerBase
                 let vc = QuestionDetailVC()
                 vc.vm.questionID = vm.question!.option.first!.questionID
                 self.activityIndicatorEnd()
-
-                UserInfo.shared.user.answeredQuestionID.append(vm.question!.option.first!.questionID)
+                
+                UserInfo.shared.user.answeredQuestionID!.append(vm.question!.option.first!.questionID)
                 navigationController?.popViewController(animated: true)
-                    navigationController?.pushViewController(vc, animated: true)
+                navigationController?.pushViewController(vc, animated: true)
             }
             catch{
                 self.activityIndicatorEnd()
                 AlertManager.showAnswerFailed(on: self)
             }
-
+            
         }
     }
     
@@ -114,16 +116,14 @@ class AnswerQuestionVC: SpinnerBase
         }
     }
     
-
-    
-    
-
-
 }
+
+
 extension AnswerQuestionVC : UITableViewDelegate , UITableViewDataSource
 {
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
         guard let previousIndex = previouslySelectedIndexPath else
         {
             let cell = tableView.cellForRow(at: indexPath) as? AnswerQuestionTableCell
@@ -137,20 +137,22 @@ extension AnswerQuestionVC : UITableViewDelegate , UITableViewDataSource
         let cell = tableView.cellForRow(at: indexPath) as? AnswerQuestionTableCell
         cell?.cellSelected()
         previouslySelectedIndexPath = indexPath
-
+        
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         guard let count = vm.question?.option.count else {return 0}
         return count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
+    {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AnswerQuestionTableCell.identifier, for: indexPath) as? AnswerQuestionTableCell,
-        let option = vm.question?.option[indexPath.row] else { return UITableViewCell()}
+              let option = vm.question?.option[indexPath.row] else { return UITableViewCell()}
         cell.set(temp: option.title)
         cell.frame.size.height = 40
-
+        
         return cell
     }
     

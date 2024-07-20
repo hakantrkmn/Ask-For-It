@@ -14,9 +14,9 @@ class CreateQuestionVC: SpinnerBase
     var questionText = UITextView()
     var optionsTable = UITableView()
     
-    var createButton = CustomButton(title: "Create", hasBackground: true, fontSize: .Big)
-    var addButton = CustomButton(title: "Add Option", hasBackground: true, fontSize: .Big)
-
+    var createButton = CustomButton(title: "Ask", hasBackground: true, fontSize: .Big)
+    var addButton = UIButton()
+    
     let vm = CreateQuestionViewModel()
     
     override func viewDidLoad()
@@ -47,7 +47,7 @@ class CreateQuestionVC: SpinnerBase
         questionText.snp.makeConstraints { make in
             make.top.equalTo(view.snp.centerY).offset(-view.frame.height / 4)
             make.width.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.8)
-            make.height.equalTo(50)
+            make.height.equalTo(90)
             make.centerX.equalToSuperview()
         }
         
@@ -59,17 +59,17 @@ class CreateQuestionVC: SpinnerBase
         }
         
         createButton.snp.makeConstraints { make in
-            make.top.equalTo(optionsTable.snp.bottom)
+            make.top.equalTo(optionsTable.snp.bottom).offset(50)
             make.width.equalTo(100)
             make.height.equalTo(50)
-            make.trailing.equalTo(view.snp.centerX).offset(5)
+            make.centerX.equalTo(view.snp.centerX)
         }
         
         addButton.snp.makeConstraints { make in
-            make.top.equalTo(optionsTable.snp.bottom)
-            make.width.equalTo(100)
-            make.height.equalTo(50)
-            make.leading.equalTo(view.snp.centerX).offset(5)
+            make.centerY.equalTo(createButton)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
+            make.trailing.equalTo(optionsTable)
         }
         
         
@@ -80,7 +80,7 @@ class CreateQuestionVC: SpinnerBase
         questionText.autocorrectionType = .no
         
         questionText.layer.borderWidth = 1
-        questionText.layer.borderColor = UIColor.blue.cgColor
+        questionText.layer.borderColor = UIColor.systemBlue.cgColor
         questionText.font = .systemFont(ofSize: 20)
         questionText.text = "Your Question"
         questionText.textColor = .lightGray
@@ -88,51 +88,44 @@ class CreateQuestionVC: SpinnerBase
         optionsTable.separatorStyle = .none
         
         addButton.addTarget(self, action: #selector(addOption), for: .touchUpInside)
-
+        addButton.setImage(UIImage(systemName: "plus")?.withTintColor(.white,renderingMode: .alwaysOriginal), for: .normal)
+        addButton.backgroundColor = .systemGreen
+        addButton.layer.cornerRadius = 20
+        
+        
     }
     @objc func addOption()
     {
         if vm.options.count != 5
         {
             vm.addNewRow()
-            updateCellInteraction()
             (optionsTable.cellForRow(at: IndexPath(row: vm.options.count-1, section: 0)) as! OptionsTableCell).option.becomeFirstResponder()
         }
     }
     @objc func createQuestion()
     {
         self.activityIndicatorBegin()
-        Task{
-            
-        do
+        Task
         {
+            do
+            {
                 try await vm.createQuestion(with: optionsTable, question: questionText.text)
                 let vc = AnswerQuestionVC()
-            vc.vm.questionId = vm.questionId!
+                vc.vm.questionId = vm.questionId!
                 navigationController?.pushViewController(vc, animated: true)
-            
-            self.activityIndicatorEnd()
-
-        }
-        catch
-        {
-            AlertManager.showQuestionCreationFailed(on: self)
-            self.activityIndicatorEnd()
-
-        }
+                
+                self.activityIndicatorEnd()
+                
+            }
+            catch
+            {
+                AlertManager.showQuestionCreationFailed(on: self)
+                self.activityIndicatorEnd()
+                
+            }
         }
     }
 
-    func updateCellInteraction()
-    {
-//        for i in 0..<vm.options.count-1
-//        {
-//            (optionsTable.cellForRow(at: IndexPath(row: i, section: 0)) as! OptionsTableCell).contentView.isUserInteractionEnabled = true
-//        }
-    }
-    
-
-    
 }
 
 extension CreateQuestionVC : UITableViewDelegate , UITextViewDelegate
@@ -150,7 +143,7 @@ extension CreateQuestionVC : UITableViewDelegate , UITextViewDelegate
         return true
     }
     
-
+    
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
@@ -170,16 +163,16 @@ extension CreateQuestionVC : UITableViewDelegate , UITextViewDelegate
         {
             return UISwipeActionsConfiguration(actions: [])
         }
-       
+        
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
-
+        
         if (editingStyle == .delete)
         {
             vm.deleteItemFromDataSource(at: indexPath)
-
+            
         }
     }
     
