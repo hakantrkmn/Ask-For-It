@@ -23,14 +23,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 guard let id = Auth.auth().currentUser?.uid else {return}
                 do
                 {
-                    print("trkmn")
                     UserInfo.shared.user = try await NetworkService.shared.getUserInfo(with: id)
-                    dump(UserInfo.shared.user)
                     window.rootViewController = TabBarController()
                 }
                 catch
                 {
-                    print("hakan")
                     try  Auth.auth().signOut()
                     window.rootViewController = createNav(vc: LoginVC())
                 }

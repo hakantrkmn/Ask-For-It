@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol UserListVCDelegate : AnyObject
+{
+    func userTapped(userID : String)
+}
 class UserListVC: SpinnerBase {
     
     var user : User?
@@ -20,6 +24,8 @@ class UserListVC: SpinnerBase {
     
     var emptyLabel = WarningLabel(title: "There is no user")
     
+    weak var delegate: UserListVCDelegate?
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -86,7 +92,6 @@ class UserListVC: SpinnerBase {
                     {
                         users.append(try await NetworkService.shared.getUserInfo(with: user))
                         tableView.reloadData()
-                        dump(users)
                     }
                     catch let error
                     {
@@ -115,6 +120,11 @@ class UserListVC: SpinnerBase {
 
 extension UserListVC : UITableViewDelegate , UITableViewDataSource
 {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = users[indexPath.row]
+        delegate?.userTapped(userID: user.id)
+        dismissVC()
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         users.count
     }

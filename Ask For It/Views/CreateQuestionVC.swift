@@ -110,8 +110,9 @@ class CreateQuestionVC: SpinnerBase
             do
             {
                 try await vm.createQuestion(with: optionsTable, question: questionText.text)
-                let vc = AnswerQuestionVC()
-                vc.vm.questionId = vm.questionId!
+                let vc = QuestionDetailVC()
+                vc.vm.questionID = vm.questionId!
+                UserInfo.shared.user.createdQuestionID?.append(vm.questionId!)
                 navigationController?.pushViewController(vc, animated: true)
                 
                 self.activityIndicatorEnd()

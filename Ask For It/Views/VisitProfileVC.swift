@@ -58,16 +58,17 @@ class VisitProfileVC: SpinnerBase
     
     @objc func unfollowTapped()
     {
-        guard var user = vm.user else{return}
         Task{
             do
             {
-                try await NetworkService.shared.unfollowUser(with: user.id)
+
+                try await NetworkService.shared.unfollowUser(with: vm.user!.id)
                 followButton.title = "Follow"
                 followButton.tintColor = .systemGreen
                 followButton.action = #selector(followTapped)
-                user.followedUserID.remove(object: UserInfo.shared.user.id)
-                profileSummary.set(with: user)
+                vm.user!.followedUserID.remove(object: UserInfo.shared.user.id)
+                dump(vm.user!)
+                profileSummary.set(with: vm.user!)
 
             }
             catch let error
@@ -78,17 +79,19 @@ class VisitProfileVC: SpinnerBase
     }
     @objc func followTapped()
     {
-        guard var user = vm.user else{return}
 
         Task{
             do
             {
-                try await NetworkService.shared.followUser(with: user.id)
+
+                try await NetworkService.shared.followUser(with: vm.user!.id)
                 followButton.title = "Unfollow"
                 followButton.tintColor = .systemRed
                 followButton.action = #selector(unfollowTapped)
-                user.followedUserID.append(UserInfo.shared.user.id)
-                profileSummary.set(with: user)
+                vm.user!.followedUserID.append(UserInfo.shared.user.id)
+                dump(vm.user!)
+
+                profileSummary.set(with: vm.user!)
                  
 
             }
@@ -142,7 +145,6 @@ class VisitProfileVC: SpinnerBase
 extension VisitProfileVC : ProfileSummaryDelegate
 {
     func followedTapped() {
-        print("klsandşkas")
         let vc = UserListVC()
         vc.user = vm.user
         vc.modalPresentationStyle = .formSheet
@@ -152,6 +154,7 @@ extension VisitProfileVC : ProfileSummaryDelegate
     }
     
     func followingTapped() {
+
         let vc = UserListVC()
         vc.user = vm.user
         vc.modalPresentationStyle = .formSheet

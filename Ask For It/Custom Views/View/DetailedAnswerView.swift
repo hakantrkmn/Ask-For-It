@@ -43,7 +43,7 @@ class DetailedAnswerView: UIView {
 
     
 
-        for i in 0..<question!.option.count
+        for _ in 0..<question!.option.count
         {
             let table = UITableView()
             table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")

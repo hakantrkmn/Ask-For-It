@@ -160,9 +160,7 @@ class NetworkService
         
         for document in question.documents
         {
-            let doc = try document.data(as: QuestionQuery.self)
             questionIDS.append(document.documentID)
-            
         }
         
         return questionIDS
@@ -177,7 +175,6 @@ class NetworkService
         
         for document in question.documents
         {
-            let doc = try document.data(as: QuestionQuery.self)
             questionIDS.append(document.documentID)
             
         }
@@ -273,7 +270,7 @@ class NetworkService
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
         guard let user = Auth.auth().currentUser else { return completion([]) }
-        let question =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
+        _ =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents
             else
             {
@@ -283,7 +280,6 @@ class NetworkService
             Task
             {@MainActor in
                 var questions : [Question] = []
-                print(documents.count)
                 for document in documents
                 {
                     
@@ -332,7 +328,7 @@ class NetworkService
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
         guard let user = Auth.auth().currentUser else { return completion([]) }
-        let question =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
+        _ =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents
             else
             {
@@ -342,7 +338,6 @@ class NetworkService
             Task
             {@MainActor in 
                 var questions : [Question] = []
-                print(documents.count)
                 for document in documents
                 {
                     do{

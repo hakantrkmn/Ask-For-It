@@ -27,7 +27,7 @@ class FollowerFeedVC: UIViewController {
         
     }
     
-    @objc func userInfoChanged() 
+    @objc func userInfoChanged()
     {
         vm.getQuestions {
             self.feedTable.reloadData()
@@ -59,7 +59,7 @@ class FollowerFeedVC: UIViewController {
         }
         
     }
-
+    
     
     
     
@@ -69,20 +69,11 @@ extension FollowerFeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellD
 {
     func profileTapped(_ user: String)
     {
-        Task
-        {
-            do
-            {
-                let vc = VisitProfileVC()
-                vc.vm.userID = user
-                navigationController?.pushViewController(vc, animated: true)
-            }
-            catch
-            {
-                print("kalnsdşkasd")
-            }
-            
-        }
+        
+        let vc = VisitProfileVC()
+        vc.vm.userID = user
+        navigationController?.pushViewController(vc, animated: true)
+        
         
     }
     

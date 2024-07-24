@@ -26,7 +26,7 @@ class FeedTableCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(usernameTapped))
         createdUser.isUserInteractionEnabled = true
 
         tapGesture.cancelsTouchesInView = true // Bu satır önemli
@@ -34,9 +34,7 @@ class FeedTableCell: UITableViewCell {
         
     }
     
-    @objc func labelTapped() {
-            // İkinci view controller'a geçiş
-        print(question!.createdUserID)
+    @objc func usernameTapped() {
         delegate?.profileTapped(question!.createdUserID)
         }
     

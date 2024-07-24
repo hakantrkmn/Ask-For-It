@@ -69,12 +69,10 @@ class ProfileSummaryView: UIView
     }
     
     @objc func followedLabelTapped() {
-        print("ali")
         delegate?.followedTapped()
         }
     
     @objc func followingLabelTapped() {
-        print("hakan")
         delegate?.followingTapped()
         }
 

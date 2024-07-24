@@ -104,11 +104,19 @@ class ProfileVC: UIViewController
     
 }
 
-extension ProfileVC : ProfileSummaryDelegate
+extension ProfileVC : ProfileSummaryDelegate , UserListVCDelegate
 {
+    func userTapped(userID: String) {
+        
+        let vc = VisitProfileVC()
+        vc.vm.userID = userID
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func followedTapped() {
         let vc = UserListVC()
         vc.user = UserInfo.shared.user
+        vc.delegate = self
         vc.modalPresentationStyle = .formSheet
         vc.listType = .Followed
         let navController = UINavigationController(rootViewController: vc)
@@ -118,6 +126,8 @@ extension ProfileVC : ProfileSummaryDelegate
     func followingTapped() {
         let vc = UserListVC()
         vc.user = UserInfo.shared.user
+        vc.delegate = self
+
         vc.modalPresentationStyle = .formSheet
         vc.listType = .Following
         

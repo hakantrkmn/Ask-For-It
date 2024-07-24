@@ -9,7 +9,7 @@ import UIKit
 import DGCharts
 import SnapKit
 
-class QuestionDetailVC: UIViewController 
+class QuestionDetailVC: UIViewController
 {
     
     var vm = QuestionDetailViewModel()
@@ -61,23 +61,13 @@ class QuestionDetailVC: UIViewController
         createdUser.addGestureRecognizer(tapGesture)
     }
     
-    @objc func labelTapped() 
+    @objc func labelTapped()
     {
         
-        Task
-        {
-            do
-            {
-                let vc = VisitProfileVC()
-                vc.vm.userID = vm.question!.createdUserID
-                navigationController?.pushViewController(vc, animated: true)
-            }
-            catch let error
-            {
-                print(error.localizedDescription)
-            }
-            
-        }
+        let vc = VisitProfileVC()
+        vc.vm.userID = vm.question!.createdUserID
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     func setUI()

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
-class FeedVC: SpinnerBase 
+class FeedVC: SpinnerBase
 {
     
     var feedTable = UITableView()
@@ -26,7 +26,6 @@ class FeedVC: SpinnerBase
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title  = "Feed"
         
-        dump(UserInfo.shared.user)
     }
     
     
@@ -67,23 +66,10 @@ class FeedVC: SpinnerBase
 extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
 {
     func profileTapped(_ user: String)
-    {
-        Task
-        {
-            do
-            {
-                print(user)
-                let vc = VisitProfileVC()
-                vc.vm.userID = user
-                navigationController?.pushViewController(vc, animated: true)
-            }
-            catch
-            {
-                print("kalnsdşkasd")
-            }
-            
-        }
-        
+    {        
+        let vc = VisitProfileVC()
+        vc.vm.userID = user
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -91,7 +77,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         return vm.questions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableCell.identifier, for: indexPath) as? FeedTableCell else {return UITableViewCell() }
         cell.set(  question: vm.questions[indexPath.row])
@@ -106,7 +92,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         guard let id = vm.questions[indexPath.row].option.first?.questionID else { return}
         

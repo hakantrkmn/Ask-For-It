@@ -87,7 +87,10 @@ extension CreatedQuestionsVC : UITableViewDelegate,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if UserInfo.shared.user.createdQuestionID!.contains(questions![indexPath.row].option.first!.questionID)
+        let id = questions![indexPath.row].option.first!.questionID
+        
+        
+        if UserInfo.shared.user.createdQuestionID!.contains(id) || UserInfo.shared.user.answeredQuestionID!.contains(id)
         {
             let vc = QuestionDetailVC()
             vc.vm.questionID = questions![indexPath.row].option.first!.questionID
