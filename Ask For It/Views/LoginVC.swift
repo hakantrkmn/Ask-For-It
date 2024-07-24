@@ -37,7 +37,7 @@ class LoginVC: SpinnerBase
         {
             do
             {
-                try await self.vm.signIn(with: LoginUserRequest(email: email, password: password), for: self)
+                try await self.vm.signIn(with: LoginUserRequest(email: email, password: password , followedUserID: [] , followingUserID: []), for: self)
                 self.activityIndicatorEnd()
                 let feed = TabBarController()
                 feed.modalPresentationStyle = .fullScreen

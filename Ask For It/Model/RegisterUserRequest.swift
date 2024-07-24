@@ -14,5 +14,7 @@ struct RegisterUserRequest
     var password :String
     var answeredQuestionID : [String]?
     var createdQuestionID : [String]?
+    var followedUserID : [String]
+    var followingUserID : [String]
 }
 

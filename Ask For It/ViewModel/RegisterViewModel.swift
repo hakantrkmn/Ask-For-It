@@ -14,6 +14,7 @@ class RegisterViewModel
     @MainActor
     func signUp(for user : RegisterUserRequest , for vc : UIViewController) async throws
     {
+        dump(user)
         if Validator.isValidEmail(for: user.email)
         {
             

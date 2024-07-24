@@ -11,7 +11,7 @@ import SnapKit
 class ProfileVC: UIViewController 
 {
     
-    var profileSummary = ProfileSummaryView(with: UserInfo.shared.user)
+    var profileSummary = ProfileSummaryView()
     
     var segment = UISegmentedControl(items: ["Created Questions","Answered Questions"])
     var pageView = ProfileQuestionPageVC(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -23,11 +23,24 @@ class ProfileVC: UIViewController
         view.backgroundColor = .systemBackground
         setupUI()
         configureUI()
+        profileSummary.set(with: UserInfo.shared.user)
         let logoutButton = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.right"), style: .plain, target: self, action: #selector(logoutTapped))
         logoutButton.tintColor = .red
         navigationItem.rightBarButtonItem = logoutButton
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFollowingUserIDChange), name: .userInfoChanged, object: nil)
+        
+        profileSummary.delegate = self
     }
+    @objc func handleFollowingUserIDChange() {
+           // Burada, followingUserID değiştiğinde yapılacak işlemleri belirleyebilirsin.
+        profileSummary.set(with: UserInfo.shared.user)
+       }
+       
+       deinit {
+           NotificationCenter.default.removeObserver(self, name: .userInfoChanged, object: nil)
+       }
+    
     
     @objc func logoutTapped()
     {
@@ -92,4 +105,25 @@ class ProfileVC: UIViewController
     
 }
 
+extension ProfileVC : ProfileSummaryDelegate
+{
+    func followerTapped() {
+        let vc = UserListVC()
+        vc.user = UserInfo.shared.user
+        vc.modalPresentationStyle = .formSheet
+        vc.listType = .Following
+        let navController = UINavigationController(rootViewController: vc)
+        navigationController?.present(navController, animated: true)
+    }
+    
+    func followingTapped() {
+        let vc = UserListVC()
+        vc.user = UserInfo.shared.user
+        vc.modalPresentationStyle = .formSheet
+        let navController = UINavigationController(rootViewController: vc)
+        navigationController?.present(navController, animated: true)
 
+    }
+    
+    
+}

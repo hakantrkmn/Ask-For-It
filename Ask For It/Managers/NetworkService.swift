@@ -40,6 +40,40 @@ class NetworkService
         return questionDatabase.documentID
     }
     
+    func unfollowUser(with unfollowUserId : String ) async throws
+    {
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        
+       
+        try await db.collection(DatabaseNames.userTable).document(userId).updateData([
+            "followingUserID": FieldValue.arrayRemove([unfollowUserId])
+        ])
+        
+        try await db.collection(DatabaseNames.userTable).document(unfollowUserId).updateData([
+            "followedUserID": FieldValue.arrayRemove([userId])
+        ])
+        
+        UserInfo.shared.user.followingUserID.remove(object: unfollowUserId)
+        
+    }
+    
+    func followUser(with followingUserId : String ) async throws
+    {
+        guard let userId = Auth.auth().currentUser?.uid else {return}
+        
+       
+        try await db.collection(DatabaseNames.userTable).document(userId).updateData([
+            "followingUserID": FieldValue.arrayUnion([followingUserId])
+        ])
+        
+        try await db.collection(DatabaseNames.userTable).document(followingUserId).updateData([
+            "followedUserID": FieldValue.arrayUnion([userId])
+        ])
+        
+        UserInfo.shared.user.followingUserID.append(followingUserId)
+        
+    }
+    
     func answerQuestion(with questionId : String , optionIndex : Int) async throws
     {
         guard let userId = Auth.auth().currentUser?.uid else {return}
@@ -232,6 +266,64 @@ class NetworkService
         }
         
         return questions
+    }
+    
+    func getFollowingUsersRandomSnapshot(completion: @escaping (_ questionList: [Question]) -> ())
+    {
+        let questionCollection  = db.collection(DatabaseNames.questionTable)
+        
+        guard let user = Auth.auth().currentUser else { return completion([]) }
+        let question =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents
+            else
+            {
+                print("Error fetching documents: \(error!)")
+                return
+            }
+            Task
+            {@MainActor in
+                var questions : [Question] = []
+                print(documents.count)
+                for document in documents
+                {
+                    
+                    
+                    do{
+                        let doc = try document.data(as: QuestionQuery.self)
+                        if !UserInfo.shared.user.followingUserID.contains(doc.createdUserID)
+                        {
+                            continue
+
+                        }
+                        if doc.answeredUserID.contains(user.uid)
+                        {
+                            continue
+                        }
+                        let questionData = Question(userId: doc.createdUserID, title: doc.title, options: [] , answeredUserIDs: [] , createdAt: doc.createdAt)
+                        
+                        questionData.createdUserInfo = try await self.getUserInfo(with: questionData.createdUserID)
+                        
+                        
+                        for opt in doc.optionID
+                        {
+                            try await questionData.option.append(self.getOption(with: opt)!)
+                        }
+                        
+                        
+                        questions.append(questionData)
+                        
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+                
+                completion(questions)
+            }
+        }
+        
+        
     }
     
     

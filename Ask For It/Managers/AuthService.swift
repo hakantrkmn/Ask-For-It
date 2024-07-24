@@ -15,7 +15,7 @@ enum AuthService
     {
         let result = try await Auth.auth().createUser(withEmail: userRequest.email, password: userRequest.password)
         let db = Firestore.firestore()
-        try await db.collection(DatabaseNames.userTable).document(result.user.uid).setData(["id" : result.user.uid,"username" : userRequest.username , "email" : userRequest.email])
+        try await db.collection(DatabaseNames.userTable).document(result.user.uid).setData(["id" : result.user.uid,"username" : userRequest.username , "email" : userRequest.email , "followingUserID" : userRequest.followingUserID , "followedUserID" : userRequest.followedUserID] )
         
     }
     

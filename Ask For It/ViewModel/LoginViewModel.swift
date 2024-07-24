@@ -16,7 +16,7 @@ class LoginViewModel
         if Validator.isValidEmail(for: user.email)
         {
             
-                let user = LoginUserRequest(email: user.email, password: user.password)
+                let user = LoginUserRequest(email: user.email, password: user.password , followedUserID: [] , followingUserID: [])
                 
                     try await AuthService.loginUser(with: user)
                     

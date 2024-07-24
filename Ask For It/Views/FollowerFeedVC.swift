@@ -1,19 +1,17 @@
 //
-//  FeedVC.swift
+//  FollowerFeedVC.swift
 //  Ask For It
 //
-//  Created by Hakan Türkmen on 1.04.2024.
+//  Created by Hakan Türkmen on 24.07.2024.
 //
 
 import UIKit
-import SnapKit
-import FirebaseAuth
-class FeedVC: SpinnerBase 
-{
-    
+
+class FollowerFeedVC: UIViewController {
+
     var feedTable = UITableView()
     
-    var vm = FeedViewModel()
+    var vm = FollowerFeedViewModel()
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -22,10 +20,22 @@ class FeedVC: SpinnerBase
         setupUI()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title  = "Feed"
+        navigationItem.title  = "Follower Feed"
         
-        dump(UserInfo.shared.user)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFollowingUserIDChange), name: .userInfoChanged, object: nil)
+
     }
+    
+    @objc func handleFollowingUserIDChange() {
+           // Burada, followingUserID değiştiğinde yapılacak işlemleri belirleyebilirsin.
+        vm.getQuestions {
+            self.feedTable.reloadData()
+        }
+       }
+       
+       deinit {
+           NotificationCenter.default.removeObserver(self, name: .userInfoChanged, object: nil)
+       }
     
     
     
@@ -62,7 +72,7 @@ class FeedVC: SpinnerBase
     
 }
 
-extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
+extension FollowerFeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
 {
     func profileTapped(_ user: String)
     {
@@ -89,7 +99,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         return vm.questions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableCell.identifier, for: indexPath) as? FeedTableCell else {return UITableViewCell() }
         cell.set(  question: vm.questions[indexPath.row])
@@ -104,7 +114,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         guard let id = vm.questions[indexPath.row].option.first?.questionID else { return}
         
@@ -118,5 +128,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
     }
     
     
-    
+
+   
+
 }

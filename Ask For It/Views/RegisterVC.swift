@@ -35,7 +35,7 @@ class RegisterVC: SpinnerBase {
         self.activityIndicatorBegin()
         Task {
             do{
-                try await  vm.signUp(for: RegisterUserRequest(username: username, email: email, password: password), for: self)
+                try await  vm.signUp(for: RegisterUserRequest(username: username, email: email, password: password , followedUserID: [] , followingUserID: []), for: self)
                 self.activityIndicatorEnd()
                 
             }

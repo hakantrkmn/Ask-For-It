@@ -15,5 +15,7 @@ struct User : Codable
     let username : String
     var answeredQuestionID : [String]?
     var createdQuestionID : [String]?
+    var followedUserID : [String]
+    var followingUserID : [String]
 
 }

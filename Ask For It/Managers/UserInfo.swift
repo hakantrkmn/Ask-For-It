@@ -7,13 +7,20 @@
 
 import Foundation
 
+extension Notification.Name {
+    static let userInfoChanged = Notification.Name("userInfoChanged")
+}
 
 class UserInfo
 {
     static let shared = UserInfo()
     
-    var user = User(id: "", email: "", username: "", answeredQuestionID: [], createdQuestionID: [
-    ])
+    var user = User(id: "", email: "", username: "", answeredQuestionID: [], createdQuestionID: [], followedUserID: [] , followingUserID: []){
+        didSet {
+            NotificationCenter.default.post(name: .userInfoChanged, object: nil)
+                }
+    }
+    
   
     
 }

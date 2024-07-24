@@ -17,6 +17,7 @@ class VisitProfileVC: UIViewController
     var segment = UISegmentedControl(items: ["Created Questions"])
     var pageView = CreatedQuestionsVC()
     
+    var followButton = UIBarButtonItem()
     
     override func viewDidLoad()
     {
@@ -27,9 +28,64 @@ class VisitProfileVC: UIViewController
         configureUI()
         profileSummary.set(with: user!)
         pageView.configure(with: user!)
+        
+        
+        if !UserInfo.shared.user.followingUserID.contains(user!.id)
+        {
+            followButton = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followTapped))
+            navigationItem.rightBarButtonItem = followButton
+        }
+        else
+        {
+            followButton = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowTapped))
+            navigationItem.rightBarButtonItem = followButton
+        }
+        
+        profileSummary.delegate = self
+
+        
     }
     
     
+    @objc func unfollowTapped()
+    {
+        Task{
+            do
+            {
+                try await NetworkService.shared.unfollowUser(with: user!.id)
+                followButton.title = "Follow"
+                followButton.tintColor = .systemGreen
+                followButton.action = #selector(followTapped)
+                user?.followedUserID.remove(object: UserInfo.shared.user.id)
+                profileSummary.set(with: user!) 
+
+            }
+            catch let error
+            {
+                print(error)
+            }
+        }
+    }
+    @objc func followTapped()
+    {
+        Task{
+            do
+            {
+                try await NetworkService.shared.followUser(with: user!.id)
+                followButton.title = "Unfollow"
+                followButton.tintColor = .systemRed
+                followButton.action = #selector(unfollowTapped)
+                user?.followedUserID.append(UserInfo.shared.user.id)
+                profileSummary.set(with: user!)
+                 
+
+            }
+            catch let error
+            {
+                print(error)
+            }
+        }
+    }
     
     func configureUI()
     {
@@ -70,3 +126,26 @@ class VisitProfileVC: UIViewController
 }
 
 
+
+extension VisitProfileVC : ProfileSummaryDelegate
+{
+    func followerTapped() {
+        print("klsandşkas")
+        let vc = UserListVC()
+        vc.user = user
+        vc.modalPresentationStyle = .formSheet
+        vc.listType = .Following
+        present(vc, animated: true)
+    }
+    
+    func followingTapped() {
+        let vc = UserListVC()
+        vc.user = user
+        vc.modalPresentationStyle = .formSheet
+        vc.listType = .Followed
+        present(vc, animated: true)
+
+    }
+    
+    
+}
