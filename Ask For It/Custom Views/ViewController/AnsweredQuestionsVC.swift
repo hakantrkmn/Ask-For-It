@@ -13,7 +13,7 @@ class AnsweredQuestionsVC: SpinnerBase
     var questions : [Question]?
     var questionsTable = UITableView()
     var user : User?
-    var emptyText = UILabel()
+    var emptyText = WarningLabel(title: "Inactive user :(((")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +33,6 @@ class AnsweredQuestionsVC: SpinnerBase
     func configure(with user : User)
     {
         emptyText.isHidden = true
-        emptyText.text = "Inactive user :((("
-        emptyText.textAlignment = .center
         Task{
             self.activityIndicatorBegin()
             do{
@@ -61,7 +59,7 @@ class AnsweredQuestionsVC: SpinnerBase
         }
         
         emptyText.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalToSuperview().inset(20)
         }
     }
     

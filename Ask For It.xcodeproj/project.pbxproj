@@ -31,6 +31,8 @@
 		490ED7072C51336200657458 /* FollowerFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED7062C51336200657458 /* FollowerFeedVC.swift */; };
 		490ED70B2C5134E800657458 /* FollowerFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED70A2C5134E800657458 /* FollowerFeedViewModel.swift */; };
 		490ED70D2C513B9B00657458 /* UserListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED70C2C513B9B00657458 /* UserListVC.swift */; };
+		490ED70F2C5186F700657458 /* WarningLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED70E2C5186F700657458 /* WarningLabel.swift */; };
+		490ED7112C518D2500657458 /* VisitProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490ED7102C518D2500657458 /* VisitProfileViewModel.swift */; };
 		4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822C2BBAD3E90074004A /* AppDelegate.swift */; };
 		4961822F2BBAD3E90074004A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822E2BBAD3E90074004A /* SceneDelegate.swift */; };
 		496182362BBAD3EA0074004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 496182352BBAD3EA0074004A /* Assets.xcassets */; };
@@ -89,6 +91,8 @@
 		490ED7062C51336200657458 /* FollowerFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerFeedVC.swift; sourceTree = "<group>"; };
 		490ED70A2C5134E800657458 /* FollowerFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerFeedViewModel.swift; sourceTree = "<group>"; };
 		490ED70C2C513B9B00657458 /* UserListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListVC.swift; sourceTree = "<group>"; };
+		490ED70E2C5186F700657458 /* WarningLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLabel.swift; sourceTree = "<group>"; };
+		490ED7102C518D2500657458 /* VisitProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitProfileViewModel.swift; sourceTree = "<group>"; };
 		496182292BBAD3E90074004A /* Ask For It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ask For It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4961822C2BBAD3E90074004A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4961822E2BBAD3E90074004A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 				490B2EF42BE7C4040046B6CA /* QuestionDetailViewModel.swift */,
 				490B2EFA2BE7C7AD0046B6CA /* AnswerQuestionViewModel.swift */,
 				490ED70A2C5134E800657458 /* FollowerFeedViewModel.swift */,
+				490ED7102C518D2500657458 /* VisitProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 		49D8B88C2BBAE0E500B49C46 /* Label */ = {
 			isa = PBXGroup;
 			children = (
+				490ED70E2C5186F700657458 /* WarningLabel.swift */,
 			);
 			path = Label;
 			sourceTree = "<group>";
@@ -413,6 +419,7 @@
 				490B2F102BEAD94D0046B6CA /* AnsweredQuestionsVC.swift in Sources */,
 				49D8B87A2BBAD75200B49C46 /* FeedVC.swift in Sources */,
 				490B2EF52BE7C4040046B6CA /* QuestionDetailViewModel.swift in Sources */,
+				490ED70F2C5186F700657458 /* WarningLabel.swift in Sources */,
 				49D8B8AD2BBC3F0300B49C46 /* CreateQuestionVC.swift in Sources */,
 				49D8B88F2BBAE11300B49C46 /* CustomTextField.swift in Sources */,
 				490ED7032C4C330500657458 /* DetailedAnswerView.swift in Sources */,
@@ -450,6 +457,7 @@
 				49BD4C3F2C466FF80067A4BB /* VisitProfileVC.swift in Sources */,
 				49D8B8782BBAD61400B49C46 /* TabBarController.swift in Sources */,
 				490ED7052C4C486000657458 /* UIColor+Ext.swift in Sources */,
+				490ED7112C518D2500657458 /* VisitProfileViewModel.swift in Sources */,
 				490B2EEF2BE7BA420046B6CA /* RegisterViewModel.swift in Sources */,
 				49D8B8742BBAD58F00B49C46 /* LoginVC.swift in Sources */,
 				49D8B8AF2BBC41DB00B49C46 /* OptionsTableCell.swift in Sources */,

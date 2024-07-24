@@ -8,10 +8,11 @@
 import UIKit
 
 class FollowerFeedVC: UIViewController {
-
-    var feedTable = UITableView()
     
+    var feedTable = UITableView()
     var vm = FollowerFeedViewModel()
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -22,20 +23,18 @@ class FollowerFeedVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title  = "Follower Feed"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleFollowingUserIDChange), name: .userInfoChanged, object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
+        
     }
     
-    @objc func handleFollowingUserIDChange() {
-           // Burada, followingUserID değiştiğinde yapılacak işlemleri belirleyebilirsin.
+    @objc func userInfoChanged() 
+    {
         vm.getQuestions {
             self.feedTable.reloadData()
         }
-       }
-       
-       deinit {
-           NotificationCenter.default.removeObserver(self, name: .userInfoChanged, object: nil)
-       }
+    }
+    
+    deinit {NotificationCenter.default.removeObserver(self, name: .userInfoChanged, object: nil)}
     
     
     
@@ -54,19 +53,13 @@ class FollowerFeedVC: UIViewController {
     private func setupUI()
     {
         view.addSubview(feedTable)
+        
         feedTable.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(addTapped))
-        
     }
-    
-    @objc func addTapped()
-    {
-        let vc = CreateQuestionVC()
-        navigationController?.pushViewController(vc, animated: true)
-    }
+
     
     
     
@@ -80,9 +73,8 @@ extension FollowerFeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellD
         {
             do
             {
-                print(user)
                 let vc = VisitProfileVC()
-                vc.user = try await NetworkService.shared.getUserInfo(with: user)
+                vc.vm.userID = user
                 navigationController?.pushViewController(vc, animated: true)
             }
             catch
@@ -128,7 +120,7 @@ extension FollowerFeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellD
     }
     
     
-
-   
-
+    
+    
+    
 }

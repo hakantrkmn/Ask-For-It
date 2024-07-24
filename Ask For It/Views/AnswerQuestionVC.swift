@@ -124,7 +124,7 @@ extension AnswerQuestionVC : UITableViewDelegate , UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        guard let previousIndex = previouslySelectedIndexPath else
+        guard previouslySelectedIndexPath != nil else
         {
             let cell = tableView.cellForRow(at: indexPath) as? AnswerQuestionTableCell
             cell?.cellSelected()

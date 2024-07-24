@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileVC: UIViewController 
+class ProfileVC: UIViewController
 {
     
     var profileSummary = ProfileSummaryView()
@@ -28,18 +28,17 @@ class ProfileVC: UIViewController
         logoutButton.tintColor = .red
         navigationItem.rightBarButtonItem = logoutButton
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleFollowingUserIDChange), name: .userInfoChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
         
         profileSummary.delegate = self
     }
-    @objc func handleFollowingUserIDChange() {
-           // Burada, followingUserID değiştiğinde yapılacak işlemleri belirleyebilirsin.
+    @objc func userInfoChanged() {
         profileSummary.set(with: UserInfo.shared.user)
-       }
-       
-       deinit {
-           NotificationCenter.default.removeObserver(self, name: .userInfoChanged, object: nil)
-       }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .userInfoChanged, object: nil)
+    }
     
     
     @objc func logoutTapped()
@@ -107,11 +106,11 @@ class ProfileVC: UIViewController
 
 extension ProfileVC : ProfileSummaryDelegate
 {
-    func followerTapped() {
+    func followedTapped() {
         let vc = UserListVC()
         vc.user = UserInfo.shared.user
         vc.modalPresentationStyle = .formSheet
-        vc.listType = .Following
+        vc.listType = .Followed
         let navController = UINavigationController(rootViewController: vc)
         navigationController?.present(navController, animated: true)
     }
@@ -120,9 +119,11 @@ extension ProfileVC : ProfileSummaryDelegate
         let vc = UserListVC()
         vc.user = UserInfo.shared.user
         vc.modalPresentationStyle = .formSheet
+        vc.listType = .Following
+        
         let navController = UINavigationController(rootViewController: vc)
         navigationController?.present(navController, animated: true)
-
+        
     }
     
     

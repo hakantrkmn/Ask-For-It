@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileSummaryDelegate: AnyObject {
-    func followerTapped()
+    func followedTapped()
     func followingTapped()
 }
 
@@ -33,7 +33,7 @@ class ProfileSummaryView: UIView
         return label
     }()
     
-    var followerAmountLabel : UILabel =
+    var followingAmountLabel : UILabel =
     {
        var label = UILabel()
         label.textAlignment = .right
@@ -61,21 +61,21 @@ class ProfileSummaryView: UIView
 
         followedAmountLabel.addGestureRecognizer(tapGesture)
         
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(followerLabelTapped))
-        followerAmountLabel.isUserInteractionEnabled = true
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(followingLabelTapped))
+        followingAmountLabel.isUserInteractionEnabled = true
 
-        followerAmountLabel.addGestureRecognizer(tapGesture2)
+        followingAmountLabel.addGestureRecognizer(tapGesture2)
         
     }
     
     @objc func followedLabelTapped() {
         print("ali")
-        delegate?.followingTapped()
+        delegate?.followedTapped()
         }
     
-    @objc func followerLabelTapped() {
+    @objc func followingLabelTapped() {
         print("hakan")
-        delegate?.followerTapped()
+        delegate?.followingTapped()
         }
 
     init()
@@ -88,10 +88,10 @@ class ProfileSummaryView: UIView
 
         followedAmountLabel.addGestureRecognizer(tapGesture)
         
-        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(followerLabelTapped))
-        followerAmountLabel.isUserInteractionEnabled = true
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(followingLabelTapped))
+        followingAmountLabel.isUserInteractionEnabled = true
 
-        followerAmountLabel.addGestureRecognizer(tapGesture2)
+        followingAmountLabel.addGestureRecognizer(tapGesture2)
         
     }
     func set(with user : User)
@@ -100,8 +100,8 @@ class ProfileSummaryView: UIView
             self.ppImageView.image = UIImage(named: "logo")
             self.usernameLabel.text = user.username
             
-            self.followedAmountLabel.text = "\(user.followedUserID.count) Following"
-            self.followerAmountLabel.text = "\(user.followingUserID.count) Follow"
+            self.followedAmountLabel.text = "\(user.followedUserID.count) Follow"
+            self.followingAmountLabel.text = "\(user.followingUserID.count) Following"
         }
         
 
@@ -110,7 +110,7 @@ class ProfileSummaryView: UIView
     
     func setupUI()
     {
-        addSubViews(ppImageView,usernameLabel,followedAmountLabel,followerAmountLabel)
+        addSubViews(ppImageView,usernameLabel,followedAmountLabel,followingAmountLabel)
         
         ppImageView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
@@ -129,7 +129,7 @@ class ProfileSummaryView: UIView
             make.top.equalTo(usernameLabel.snp.bottom)
         }
         
-        followerAmountLabel.snp.makeConstraints { make in
+        followingAmountLabel.snp.makeConstraints { make in
             make.leading.equalTo(snp.centerX).offset(5)
             make.top.equalTo(usernameLabel.snp.bottom)
 

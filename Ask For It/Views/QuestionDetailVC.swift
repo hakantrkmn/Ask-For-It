@@ -68,8 +68,8 @@ class QuestionDetailVC: UIViewController
         {
             do
             {
-                var vc = VisitProfileVC()
-                vc.user = try await NetworkService.shared.getUserInfo(with:vm.question!.createdUserID)
+                let vc = VisitProfileVC()
+                vc.vm.userID = vm.question!.createdUserID
                 navigationController?.pushViewController(vc, animated: true)
             }
             catch let error

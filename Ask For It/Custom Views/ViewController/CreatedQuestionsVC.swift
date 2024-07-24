@@ -13,7 +13,7 @@ class CreatedQuestionsVC: SpinnerBase
     var questions : [Question]?
     var questionsTable = UITableView()
     var user : User?
-    var emptyText = UILabel()
+    var emptyText = WarningLabel(title: "Opps... There is no created question")
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -34,8 +34,6 @@ class CreatedQuestionsVC: SpinnerBase
     func configure(with user : User)
     {
         emptyText.isHidden = true
-        emptyText.text = "Opps... There is no created question"
-        emptyText.textAlignment = .center
         Task{
             self.activityIndicatorBegin()
 

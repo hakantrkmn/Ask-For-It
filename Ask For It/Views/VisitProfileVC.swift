@@ -8,10 +8,9 @@
 import UIKit
 import SnapKit
 
-class VisitProfileVC: UIViewController 
+class VisitProfileVC: SpinnerBase
 {
-    
-    var user : User?
+    var vm = VisitProfileViewModel()
     var profileSummary = ProfileSummaryView()
     
     var segment = UISegmentedControl(items: ["Created Questions"])
@@ -23,14 +22,21 @@ class VisitProfileVC: UIViewController
     {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        pageView.user = user!
+        Task
+        {
+            self.activityIndicatorBegin()
+            await vm.getUser()
+            self.activityIndicatorEnd()
+
+        guard let user = vm.user else{return}
+        pageView.user = user
         setupUI()
         configureUI()
-        profileSummary.set(with: user!)
-        pageView.configure(with: user!)
+        profileSummary.set(with: user)
+        pageView.configure(with: user)
         
         
-        if !UserInfo.shared.user.followingUserID.contains(user!.id)
+        if !UserInfo.shared.user.followingUserID.contains(user.id)
         {
             followButton = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followTapped))
             navigationItem.rightBarButtonItem = followButton
@@ -42,22 +48,26 @@ class VisitProfileVC: UIViewController
         }
         
         profileSummary.delegate = self
+        }
 
         
     }
     
     
+    
+    
     @objc func unfollowTapped()
     {
+        guard var user = vm.user else{return}
         Task{
             do
             {
-                try await NetworkService.shared.unfollowUser(with: user!.id)
+                try await NetworkService.shared.unfollowUser(with: user.id)
                 followButton.title = "Follow"
                 followButton.tintColor = .systemGreen
                 followButton.action = #selector(followTapped)
-                user?.followedUserID.remove(object: UserInfo.shared.user.id)
-                profileSummary.set(with: user!) 
+                user.followedUserID.remove(object: UserInfo.shared.user.id)
+                profileSummary.set(with: user)
 
             }
             catch let error
@@ -68,15 +78,17 @@ class VisitProfileVC: UIViewController
     }
     @objc func followTapped()
     {
+        guard var user = vm.user else{return}
+
         Task{
             do
             {
-                try await NetworkService.shared.followUser(with: user!.id)
+                try await NetworkService.shared.followUser(with: user.id)
                 followButton.title = "Unfollow"
                 followButton.tintColor = .systemRed
                 followButton.action = #selector(unfollowTapped)
-                user?.followedUserID.append(UserInfo.shared.user.id)
-                profileSummary.set(with: user!)
+                user.followedUserID.append(UserInfo.shared.user.id)
+                profileSummary.set(with: user)
                  
 
             }
@@ -129,22 +141,23 @@ class VisitProfileVC: UIViewController
 
 extension VisitProfileVC : ProfileSummaryDelegate
 {
-    func followerTapped() {
+    func followedTapped() {
         print("klsandşkas")
         let vc = UserListVC()
-        vc.user = user
+        vc.user = vm.user
         vc.modalPresentationStyle = .formSheet
-        vc.listType = .Following
-        present(vc, animated: true)
+        vc.listType = .Followed
+        let navController = UINavigationController(rootViewController: vc)
+        navigationController?.present(navController, animated: true)
     }
     
     func followingTapped() {
         let vc = UserListVC()
-        vc.user = user
+        vc.user = vm.user
         vc.modalPresentationStyle = .formSheet
-        vc.listType = .Followed
-        present(vc, animated: true)
-
+        vc.listType = .Following
+        let navController = UINavigationController(rootViewController: vc)
+        navigationController?.present(navController, animated: true)
     }
     
     

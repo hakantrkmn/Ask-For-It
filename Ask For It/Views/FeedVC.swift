@@ -14,6 +14,8 @@ class FeedVC: SpinnerBase
     var feedTable = UITableView()
     
     var vm = FeedViewModel()
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -72,7 +74,7 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
             {
                 print(user)
                 let vc = VisitProfileVC()
-                vc.user = try await NetworkService.shared.getUserInfo(with: user)
+                vc.vm.userID = user
                 navigationController?.pushViewController(vc, animated: true)
             }
             catch
