@@ -142,8 +142,14 @@ class VisitProfileVC: SpinnerBase
 
 
 
-extension VisitProfileVC : ProfileSummaryDelegate
+extension VisitProfileVC : ProfileSummaryDelegate , UserListVCDelegate
 {
+    func userTapped(userID: String) {
+        
+        let vc = VisitProfileVC()
+        vc.vm.userID = userID
+        navigationController?.pushViewController(vc, animated: true)
+    }
     func imageTapped() {
         
     }

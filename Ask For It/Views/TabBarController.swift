@@ -14,6 +14,7 @@ class TabBarController: UITabBarController
     {
         super.viewDidLoad()
         setupTabs()
+        tabBar.tintColor = .label
     }
     
     private func setupTabs()
@@ -30,7 +31,6 @@ class TabBarController: UITabBarController
         
         nav.tabBarItem.title = title
         nav.tabBarItem.image = image
-        
         nav.viewControllers.first?.navigationItem.title = title
         
         return nav

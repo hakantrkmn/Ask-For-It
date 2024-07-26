@@ -53,8 +53,9 @@ class FeedVC: SpinnerBase
         }
         
         view.sendSubviewToBack(feedTable)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(addTapped))
+        var addButton = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(addTapped))
+        addButton.tintColor = .systemGreen
+        navigationItem.rightBarButtonItem = addButton
         
     }
     

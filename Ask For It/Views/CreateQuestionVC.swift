@@ -37,8 +37,15 @@ class CreateQuestionVC: SpinnerBase
         vm.appendItemToDataSource()
         setUI()
         configureUI()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+                // Görünümünüze ekleyin (view veya belirli bir view)
+                view.addGestureRecognizer(tapGesture)
     }
-    
+    @objc func dismissKeyboard() {
+            // Klavyeyi kapat
+            view.endEditing(true)
+        }
     
     func setUI()
     {
@@ -47,7 +54,7 @@ class CreateQuestionVC: SpinnerBase
         questionText.snp.makeConstraints { make in
             make.top.equalTo(view.snp.centerY).offset(-view.frame.height / 4)
             make.width.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.8)
-            make.height.equalTo(90)
+            make.height.equalTo(140)
             make.centerX.equalToSuperview()
         }
         
@@ -79,11 +86,11 @@ class CreateQuestionVC: SpinnerBase
     {
         questionText.autocorrectionType = .no
         
-        questionText.layer.borderWidth = 1
+        questionText.layer.cornerRadius = 10
         questionText.layer.borderColor = UIColor.systemBlue.cgColor
+        questionText.backgroundColor = UIColor(named: "createBG")
         questionText.font = .systemFont(ofSize: 20)
-        questionText.text = "Your Question"
-        questionText.textColor = .lightGray
+        questionText.textColor = .label
         createButton.addTarget(self, action: #selector(createQuestion), for: .touchUpInside)
         optionsTable.separatorStyle = .none
         
@@ -113,6 +120,7 @@ class CreateQuestionVC: SpinnerBase
                 let vc = QuestionDetailVC()
                 vc.vm.questionID = vm.questionId!
                 UserInfo.shared.user.createdQuestionID?.append(vm.questionId!)
+                
                 navigationController?.pushViewController(vc, animated: true)
                 
                 self.activityIndicatorEnd()
@@ -132,13 +140,7 @@ class CreateQuestionVC: SpinnerBase
 extension CreateQuestionVC : UITableViewDelegate , UITextViewDelegate
 {
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if questionText.text == "Your Question"
-        {
-            questionText.text = ""
-        }
-        questionText.textColor = .systemBackground.inverted
-    }
+  
     func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool
     {
         return true

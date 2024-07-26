@@ -20,9 +20,12 @@ class AnsweredQuestionsVC: SpinnerBase
         setUI()
         questionsTable.delegate = self
         questionsTable.dataSource = self
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
+        configure(with: user!)
+
     }
-   
-    override func viewWillAppear(_ animated: Bool) {
+    
+    @objc func userInfoChanged() {
         configure(with: user!)
     }
     

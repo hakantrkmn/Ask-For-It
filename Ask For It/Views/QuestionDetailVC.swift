@@ -45,6 +45,8 @@ class QuestionDetailVC: UIViewController
             
         }
         
+        detailedAnswerView.delegate = self
+        
     }
     
     func configure()
@@ -53,7 +55,7 @@ class QuestionDetailVC: UIViewController
         chartView.configure(with: question)
         votedUserAmount.text = "\(question.answeredUserID.count) people voted"
         votedUserAmount.textAlignment = .center
-        createdUser.text = question.createdUserInfo?.username
+        //createdUser.text = question.createdUserInfo?.username
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         createdUser.isUserInteractionEnabled = true
@@ -82,7 +84,7 @@ class QuestionDetailVC: UIViewController
         
         votedUserAmount.snp.makeConstraints { make in
             make.top.equalTo(chartView.snp.bottom)
-            make.leading.trailing.equalTo(votedUserAmount)
+            make.leading.trailing.equalTo(view)
             
         }
         
@@ -98,6 +100,17 @@ class QuestionDetailVC: UIViewController
         }
     }
     
+    
+    
+}
+
+extension QuestionDetailVC : DetailedAnswerDelegate
+{
+    func usernameTapped(userID: String) {
+        let vc = VisitProfileVC()
+        vc.vm.userID =  userID
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     
 }

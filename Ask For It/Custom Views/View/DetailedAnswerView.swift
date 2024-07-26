@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol DetailedAnswerDelegate : AnyObject
+{
+    func usernameTapped(userID : String)
+}
+
 class DetailedAnswerView: UIView {
 
     var question : Question?
@@ -14,9 +19,13 @@ class DetailedAnswerView: UIView {
     var optionsTableStackView = UIStackView()
     
     var tables = [UITableView()]
+    
+    weak var delegate : DetailedAnswerDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setUI()
+        
         
     }
     
@@ -49,6 +58,7 @@ class DetailedAnswerView: UIView {
             table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
             
             table.layer.borderWidth = 1
+            
             optionsTableStackView.addArrangedSubview(table)
             tables.append(table)
             table.separatorStyle = .none
@@ -64,6 +74,10 @@ class DetailedAnswerView: UIView {
 extension DetailedAnswerView : UITableViewDelegate,UITableViewDataSource
 {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = tables.firstIndex(of: tableView)
+        delegate?.usernameTapped(userID: question!.option[index! - 1].votedUserID[indexPath.row])
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UILabel()
@@ -85,6 +99,7 @@ extension DetailedAnswerView : UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.selectionStyle = .none
         let index = tables.firstIndex(of: tableView)
         cell.backgroundColor = .clear
         Task
@@ -93,6 +108,7 @@ extension DetailedAnswerView : UITableViewDelegate,UITableViewDataSource
             let sa = try await NetworkService.shared.getUserInfo(with: question!.option[index! - 1].votedUserID[indexPath.row])
             if let cellToUpdate = tableView.cellForRow(at: indexPath) {
                 cellToUpdate.textLabel?.text = sa.username
+                
                             }
             
         }

@@ -19,11 +19,17 @@ class CreatedQuestionsVC: SpinnerBase
         setUI()
         questionsTable.delegate = self
         questionsTable.dataSource = self
-    }
-   
-    override func viewWillAppear(_ animated: Bool) {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
+        
         configure(with: user!)
     }
+    
+    @objc func userInfoChanged() {
+        configure(with: user!)
+    }
+   
+
     
     override func viewWillDisappear(_ animated: Bool) {
         self.activityIndicatorEnd()

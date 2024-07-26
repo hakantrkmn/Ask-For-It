@@ -9,6 +9,7 @@ import Foundation
 
 extension Notification.Name {
     static let userInfoChanged = Notification.Name("userInfoChanged")
+    
 }
 
 class UserInfo

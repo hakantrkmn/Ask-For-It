@@ -28,7 +28,7 @@ class CreateQuestionViewModel
                 
                 if let cell = await table.cellForRow(at: indexPath) as? OptionsTableCell
                 {
-                    if await cell.option.text?.count != 0
+                    if await cell.option.text?.count != 0 , await cell.option.text != " "
                     {
                         await  opList.append(cell.option.text!)
                     }
