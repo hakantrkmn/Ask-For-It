@@ -106,6 +106,11 @@ class ProfileVC: UIViewController
 
 extension ProfileVC : ProfileSummaryDelegate , UserListVCDelegate
 {
+    func imageTapped() {
+        print("resme rıklad")
+        self.present(profileSummary.imagePicker,animated: true)
+    }
+    
     func userTapped(userID: String) {
         
         let vc = VisitProfileVC()

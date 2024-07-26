@@ -24,6 +24,7 @@ class SpinnerBase: UIViewController {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
         view.addSubview(activityIndicator)
+
         activityIndicator.startAnimating()
 
         

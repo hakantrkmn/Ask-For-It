@@ -24,10 +24,15 @@ extension TimeInterval
 {
     func toString() -> String
     {
+//        let time = Date(timeIntervalSince1970: self)
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MMMM d"
+//        return dateFormatter.string(from: time)
+
         let time = Date(timeIntervalSince1970: self)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM d"
-        return dateFormatter.string(from: time)
+        let dateFormatter = RelativeDateTimeFormatter()
+        dateFormatter.unitsStyle = .full
+        return dateFormatter.localizedString(for: time , relativeTo: Date())
         
     }
 }

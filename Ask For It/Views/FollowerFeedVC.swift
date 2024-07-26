@@ -21,7 +21,7 @@ class FollowerFeedVC: UIViewController {
         setupUI()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title  = "Follower Feed"
+        navigationItem.title  = "Following"
         
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
         

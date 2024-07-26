@@ -144,6 +144,9 @@ class VisitProfileVC: SpinnerBase
 
 extension VisitProfileVC : ProfileSummaryDelegate
 {
+    func imageTapped() {
+        
+    }
     func followedTapped() {
         let vc = UserListVC()
         vc.user = vm.user

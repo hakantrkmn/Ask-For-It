@@ -24,7 +24,7 @@ class FeedVC: SpinnerBase
         setupUI()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title  = "Feed"
+        navigationItem.title  = "Browse"
         
     }
     
@@ -35,9 +35,12 @@ class FeedVC: SpinnerBase
         feedTable.register(FeedTableCell.self, forCellReuseIdentifier: FeedTableCell.identifier)
         feedTable.dataSource = self
         feedTable.delegate = self
-        
+        self.activityIndicatorBegin()
         vm.getQuestions {
             self.feedTable.reloadData()
+            self.activityIndicatorEnd()
+
+
         }
         
     }
@@ -48,6 +51,8 @@ class FeedVC: SpinnerBase
         feedTable.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        view.sendSubviewToBack(feedTable)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(addTapped))
         
@@ -83,8 +88,10 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         cell.set(  question: vm.questions[indexPath.row])
         cell.delegate = self
         cell.selectionStyle = .none
+        
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {

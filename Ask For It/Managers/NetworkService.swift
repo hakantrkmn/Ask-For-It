@@ -9,12 +9,13 @@ import UIKit
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
-
+import FirebaseStorage
 
 class NetworkService
 {
     
     static let shared = NetworkService()
+    let storage = Storage.storage()
     
     
     let db = Firestore.firestore()
@@ -44,7 +45,7 @@ class NetworkService
     {
         guard let userId = Auth.auth().currentUser?.uid else {return}
         
-       
+        
         try await db.collection(DatabaseNames.userTable).document(userId).updateData([
             "followingUserID": FieldValue.arrayRemove([unfollowUserId])
         ])
@@ -61,7 +62,7 @@ class NetworkService
     {
         guard let userId = Auth.auth().currentUser?.uid else {return}
         
-       
+        
         try await db.collection(DatabaseNames.userTable).document(userId).updateData([
             "followingUserID": FieldValue.arrayUnion([followingUserId])
         ])
@@ -105,7 +106,7 @@ class NetworkService
         var user = try await userCollection.document(userId).getDocument(as: User.self)
         let createdQuestions = try await getUserCreatedQuestionIDS(with: user)
         let answeredQuestions = try await getUserAnsweredQuestionIDS(with: user)
-
+        
         user.createdQuestionID = createdQuestions!
         user.answeredQuestionID = answeredQuestions!
         
@@ -289,7 +290,7 @@ class NetworkService
                         if !UserInfo.shared.user.followingUserID.contains(doc.createdUserID)
                         {
                             continue
-
+                            
                         }
                         if doc.answeredUserID.contains(user.uid)
                         {
@@ -336,7 +337,7 @@ class NetworkService
                 return
             }
             Task
-            {@MainActor in 
+            {@MainActor in
                 var questions : [Question] = []
                 for document in documents
                 {
@@ -367,9 +368,72 @@ class NetworkService
                 }
                 
                 completion(questions)
-            }      
+            }
         }
         
+        
+    }
+    
+    func uploadUserPhoto(image : UIImage)
+    {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            print("Error: Image could not be converted to data")
+            return
+        }
+        
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("images/\(UserInfo.shared.user.id).jpg")
+        _ = imageRef.putData(imageData, metadata: nil) { metadata, error in
+            guard let metadata = metadata else {
+                print("Error uploading image: \(String(describing: error?.localizedDescription))")
+                return
+            }
+            
+            
+        }
+    }
+    
+    func downloadUserPhoto(userID : String , completion: @escaping (_ image: UIImage?) -> ())
+    {
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("images/\(userID).jpg")
+        
+        // Resmi indirmek için URL'yi al
+        imageRef.downloadURL { url, error in
+            Task
+            {
+                if let error = error {
+                    print("Error getting download URL: \(error.localizedDescription)")
+                    completion(nil)
+                    
+                } else if let url = url {
+                    // URL'den resmi indir ve imageView'da göster
+                    
+                    completion(await self.downloadImage(from:url))
+                }
+            }
+        }
+        
+    }
+    
+    func downloadImage(from url: URL) async  -> UIImage?
+    {
+        do 
+        {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let image = UIImage(data: data)
+            {
+                return image
+            } 
+            else
+            {
+                return nil
+            }
+        } 
+        catch
+        {
+            return nil
+        }
         
     }
     
