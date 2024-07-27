@@ -183,6 +183,22 @@ class NetworkService
         return questionIDS
     }
     
+    func getAllUsers() async throws -> [User]
+    {
+        var users : [User] = []
+        let questionCollection  = db.collection(DatabaseNames.userTable)
+        
+        let snapshot = try await questionCollection.getDocuments()
+        
+        for document in snapshot.documents
+        {
+            users.append(try document.data(as: User.self))
+        }
+        
+        return users
+        
+    }
+    
     func getUserCreatedQuestions(with user : User) async throws -> [Question]?
     {
         let questionCollection  = db.collection(DatabaseNames.questionTable)

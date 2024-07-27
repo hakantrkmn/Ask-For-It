@@ -20,6 +20,7 @@ class TabBarController: UITabBarController
     private func setupTabs()
     {
         self.setViewControllers([createNav(with: "Feed", image: UIImage(systemName: "house"), vc: FeedVC()),
+                                 createNav(with: "Search", image: UIImage(systemName: "magnifyingglass"), vc: SearchUserVC()),
                                  createNav(with: "Followed", image: UIImage(systemName: "person.3.fill"), vc: FollowerFeedVC()),
                                  createNav(with: "Profile", image: UIImage(systemName: "person.crop.circle"), vc: ProfileVC())],
                                 animated: true)

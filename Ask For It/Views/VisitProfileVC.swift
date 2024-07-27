@@ -39,11 +39,13 @@ class VisitProfileVC: SpinnerBase
         if !UserInfo.shared.user.followingUserID.contains(user.id)
         {
             followButton = UIBarButtonItem(title: "Follow", style: .plain, target: self, action: #selector(followTapped))
+            followButton.tintColor = .systemGreen
             navigationItem.rightBarButtonItem = followButton
         }
         else
         {
             followButton = UIBarButtonItem(title: "Unfollow", style: .plain, target: self, action: #selector(unfollowTapped))
+            followButton.tintColor = .systemRed
             navigationItem.rightBarButtonItem = followButton
         }
         

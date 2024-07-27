@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FollowerFeedVC: UIViewController {
+class FollowerFeedVC: SpinnerBase {
     
     var feedTable = UITableView()
     var vm = FollowerFeedViewModel()
@@ -24,6 +24,8 @@ class FollowerFeedVC: UIViewController {
         navigationItem.title  = "Following"
         
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
+        
+        view.sendSubviewToBack(feedTable)
         
     }
     
@@ -43,9 +45,10 @@ class FollowerFeedVC: UIViewController {
         feedTable.register(FeedTableCell.self, forCellReuseIdentifier: FeedTableCell.identifier)
         feedTable.dataSource = self
         feedTable.delegate = self
-        
+        self.activityIndicatorBegin()
         vm.getQuestions {
             self.feedTable.reloadData()
+            self.activityIndicatorEnd()
         }
         
     }
