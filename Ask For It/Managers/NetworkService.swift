@@ -340,12 +340,12 @@ class NetworkService
     }
     
     
-    func getRandomSnapshot(completion: @escaping (_ questionList: [Question]) -> ())
+    func getRandomSnapshot(index : Int , completion: @escaping (_ questionList: [Question]) -> ())
     {
         let questionCollection  = db.collection(DatabaseNames.questionTable)
         
         guard let user = Auth.auth().currentUser else { return completion([]) }
-        _ =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).addSnapshotListener { querySnapshot, error in
+        _ =  questionCollection.whereField("createdUserID", isNotEqualTo: user.uid).limit(to: 20 * index).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents
             else
             {

@@ -51,6 +51,8 @@ class AnswerQuestionVC: SpinnerBase
     
     func configureUI()
     {
+        questionTitle.numberOfLines = 0
+        questionTitle.adjustsFontSizeToFitWidth = true
         optionsTable.delegate = self
         optionsTable.dataSource = self
         optionsTable.register(AnswerQuestionTableCell.self, forCellReuseIdentifier: AnswerQuestionTableCell.identifier)
@@ -100,6 +102,7 @@ class AnswerQuestionVC: SpinnerBase
         questionTitle.snp.makeConstraints { make in
             make.top.equalTo(view.snp.centerY).offset(-view.frame.height / 4)
             make.leading.trailing.equalToSuperview().inset(40)
+            make.height.equalTo(140)
         }
         
         optionsTable.snp.makeConstraints { make in

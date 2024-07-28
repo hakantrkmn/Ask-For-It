@@ -15,6 +15,7 @@ class WarningLabel: UILabel {
         text = title
         font = .boldSystemFont(ofSize: 25)
         textAlignment = .center
+        adjustsFontSizeToFitWidth = true
     }
     
     required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}

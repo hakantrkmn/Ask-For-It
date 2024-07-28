@@ -13,7 +13,8 @@ class CreatedQuestionsVC: SpinnerBase
     var questions : [Question]?
     var questionsTable = UITableView()
     var user : User?
-    var emptyText = WarningLabel(title: "Opps... There is no created question")
+    var emptyText = WarningLabel(title: "Opps... User haven't asked any questions 🤨")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()

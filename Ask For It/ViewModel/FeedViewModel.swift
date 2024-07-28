@@ -10,10 +10,11 @@ import Foundation
 class FeedViewModel
 {
     var questions : [Question] = []
-    
+    var index = 0
     func getQuestions(completion : @escaping () -> ())
     {
-        NetworkService.shared.getRandomSnapshot(completion: { questionList in
+        index += 1
+        NetworkService.shared.getRandomSnapshot(index : index,completion: { questionList in
             self.questions = questionList
             completion()
         })

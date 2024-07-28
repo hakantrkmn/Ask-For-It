@@ -14,7 +14,9 @@ class FeedVC: SpinnerBase
     var feedTable = UITableView()
     
     var vm = FeedViewModel()
-    
+    var isLoading = false
+    let tableActiviyIndicator = UIActivityIndicatorView(style: .medium)
+
     
     override func viewDidLoad()
     {
@@ -22,12 +24,21 @@ class FeedVC: SpinnerBase
         view.backgroundColor = .systemBackground
         configureUI()
         setupUI()
-        
+        setupTableViewFooter()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title  = "Browse"
         
     }
     
+    func setupTableViewFooter() {
+            let footerView = UIView(frame: CGRect(x: 0, y: 0, width: feedTable.bounds.width, height: 44))
+        tableActiviyIndicator.center = footerView.center
+            footerView.addSubview(tableActiviyIndicator)
+        tableActiviyIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        feedTable.tableFooterView = footerView
+        }
     
     
     private func configureUI()
@@ -36,13 +47,31 @@ class FeedVC: SpinnerBase
         feedTable.dataSource = self
         feedTable.delegate = self
         self.activityIndicatorBegin()
+        isLoading = true
+
         vm.getQuestions {
+            self.isLoading = false
             self.feedTable.reloadData()
             self.activityIndicatorEnd()
 
 
         }
         
+    }
+    
+    func loadData()
+    {
+        guard !isLoading else { return }
+        isLoading = true
+        tableActiviyIndicator.startAnimating()
+
+        vm.getQuestions {
+            self.feedTable.reloadData()
+            self.isLoading = false
+            self.tableActiviyIndicator.stopAnimating()
+
+
+        }
     }
     
     private func setupUI()
@@ -111,6 +140,17 @@ extension FeedVC : UITableViewDelegate,UITableViewDataSource,CustomCellDelegate
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+
+        // Kullanıcı scrollView'in sonuna geldiğinde 100 piksel daha aşağı kaydırdığında çalışır.
+        if offsetY > contentHeight - height + 200 {
+            loadData()
+            print("oldu")
+        }
     }
     
     

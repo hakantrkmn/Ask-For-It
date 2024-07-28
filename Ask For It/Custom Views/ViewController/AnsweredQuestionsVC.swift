@@ -18,10 +18,13 @@ class AnsweredQuestionsVC: SpinnerBase
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        
+        
         questionsTable.delegate = self
         questionsTable.dataSource = self
         NotificationCenter.default.addObserver(self, selector: #selector(userInfoChanged), name: .userInfoChanged, object: nil)
         configure(with: user!)
+        
 
     }
     
@@ -35,9 +38,11 @@ class AnsweredQuestionsVC: SpinnerBase
     }
     func configure(with user : User)
     {
+
         emptyText.isHidden = true
         Task{
             self.activityIndicatorBegin()
+
             do{
                 questions = try await NetworkService.shared.getUserAnsweredQuestions(with: user)
                 emptyText.isHidden = !questions!.isEmpty

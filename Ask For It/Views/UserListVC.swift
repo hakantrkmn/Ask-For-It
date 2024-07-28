@@ -70,14 +70,14 @@ class UserListVC: SpinnerBase {
         Task
         {
             guard let user = user else {return}
+            var tempUsers : [User] = []
             switch listType {
             case .Following:
                 for user in user.followingUserID
                 {
                     do
                     {
-                        users.append(try await NetworkService.shared.getUserInfo(with: user))
-                        tableView.reloadData()
+                        tempUsers.append(try await NetworkService.shared.getUserInfo(with: user))
                         
                     }
                     catch let error
@@ -90,8 +90,7 @@ class UserListVC: SpinnerBase {
                 {
                     do
                     {
-                        users.append(try await NetworkService.shared.getUserInfo(with: user))
-                        tableView.reloadData()
+                        tempUsers.append(try await NetworkService.shared.getUserInfo(with: user))
                     }
                     catch let error
                     {
@@ -99,7 +98,9 @@ class UserListVC: SpinnerBase {
                     }
                 }
             }
-            
+            users = tempUsers
+            tableView.reloadData()
+
             if users.isEmpty
             {
                 emptyLabel.isHidden = false
