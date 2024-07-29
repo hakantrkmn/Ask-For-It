@@ -396,7 +396,6 @@ class NetworkService
             print("Error: Image could not be converted to data")
             return
         }
-        
         let storageRef = storage.reference()
         let imageRef = storageRef.child("images/\(UserInfo.shared.user.id).jpg")
         _ = imageRef.putData(imageData, metadata: nil) { metadata, error in

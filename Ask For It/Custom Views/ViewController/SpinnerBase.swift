@@ -19,18 +19,26 @@ class SpinnerBase: UIViewController {
     }
 
     func activityIndicatorBegin() {
-        activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .large
-        view.addSubview(activityIndicator)
+        DispatchQueue.main.async{
+            self.activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
+            self.activityIndicator.center = self.view.center
+            self.activityIndicator.hidesWhenStopped = true
+            self.activityIndicator.color = .label
+            self.activityIndicator.style = .large
+            self.view.addSubview(self.activityIndicator)
 
-        activityIndicator.startAnimating()
+            self.activityIndicator.startAnimating()
+            
+        }
+       
 
         
     }
 
     func activityIndicatorEnd() {
+        DispatchQueue.main.async{
         self.activityIndicator.stopAnimating()
     }
+    }
+
 }

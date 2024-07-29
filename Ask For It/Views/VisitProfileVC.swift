@@ -63,6 +63,7 @@ class VisitProfileVC: SpinnerBase
         Task{
             do
             {
+                followButton.isEnabled = false
 
                 try await NetworkService.shared.unfollowUser(with: vm.user!.id)
                 followButton.title = "Follow"
@@ -71,10 +72,16 @@ class VisitProfileVC: SpinnerBase
                 vm.user!.followedUserID.remove(object: UserInfo.shared.user.id)
                 dump(vm.user!)
                 profileSummary.set(with: vm.user!)
+                
+                try? await Task.sleep(nanoseconds: 3 * 1_000_000_000) // 1 second
+
+                followButton.isEnabled = true
 
             }
             catch let error
             {
+                followButton.isEnabled = true
+
                 print(error)
             }
         }
@@ -85,20 +92,26 @@ class VisitProfileVC: SpinnerBase
         Task{
             do
             {
+                followButton.isEnabled = false
 
                 try await NetworkService.shared.followUser(with: vm.user!.id)
                 followButton.title = "Unfollow"
                 followButton.tintColor = .systemRed
                 followButton.action = #selector(unfollowTapped)
+                
                 vm.user!.followedUserID.append(UserInfo.shared.user.id)
                 dump(vm.user!)
 
                 profileSummary.set(with: vm.user!)
-                 
+                try? await Task.sleep(nanoseconds: 3 * 1_000_000_000) // 1 second
+
+                followButton.isEnabled = true
 
             }
             catch let error
             {
+                followButton.isEnabled = true
+
                 print(error)
             }
         }

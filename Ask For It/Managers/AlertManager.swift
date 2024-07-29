@@ -56,6 +56,11 @@ extension AlertManager
         self.showBasicAlert(on: vc, title: "Cannot Create Question", message: "Something wrong")
     }
     
+    @MainActor public static func showOptionCountIsLow(on vc : UIViewController)
+    {
+        self.showBasicAlert(on: vc, title: "You need at least two options", message: "")
+    }
+    
 
     
    

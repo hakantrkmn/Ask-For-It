@@ -31,8 +31,12 @@ class FollowerFeedVC: SpinnerBase {
     
     @objc func userInfoChanged()
     {
+        self.activityIndicatorEnd()
+        self.activityIndicatorBegin()
         vm.getQuestions {
             self.feedTable.reloadData()
+            self.activityIndicatorEnd()
+
         }
     }
     

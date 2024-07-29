@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+enum QuestionCreateError : Error
+{
+    case optionCannotBeEmpty
+}
 
 class CreateQuestionViewModel
 {
@@ -19,6 +23,10 @@ class CreateQuestionViewModel
     
     func createQuestion(with table : UITableView , question : String) async throws
     {
+        if question == ""
+        {
+            throw QuestionCreateError.optionCannotBeEmpty
+        }
         var opList : [String] = []
         for section in await 0..<table.numberOfSections
         {
@@ -31,6 +39,10 @@ class CreateQuestionViewModel
                     if await cell.option.text?.count != 0 , await cell.option.text != " "
                     {
                         await  opList.append(cell.option.text!)
+                    }
+                    else
+                    {
+                        throw QuestionCreateError.optionCannotBeEmpty
                     }
                 }
             }
@@ -58,7 +70,7 @@ class CreateQuestionViewModel
     func deleteItemFromDataSource(at indexPath : IndexPath)
     {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return}
-        
+
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         dataSource.apply(snapshot,animatingDifferences: true)

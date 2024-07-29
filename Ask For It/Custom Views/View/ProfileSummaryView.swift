@@ -86,7 +86,7 @@ class ProfileSummaryView: UIView
         
         let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         ppImageView.isUserInteractionEnabled = true
-        
+        ppImageView.contentMode = .scaleAspectFill
         ppImageView.addGestureRecognizer(imageTapGesture)
         
         

@@ -42,6 +42,10 @@ class CreateQuestionVC: SpinnerBase
                 // Görünümünüze ekleyin (view veya belirli bir view)
                 view.addGestureRecognizer(tapGesture)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        view.isUserInteractionEnabled = true
+    }
     @objc func dismissKeyboard() {
             // Klavyeyi kapat
             view.endEditing(true)
@@ -87,8 +91,8 @@ class CreateQuestionVC: SpinnerBase
         questionText.autocorrectionType = .no
         
         questionText.layer.cornerRadius = 10
-        questionText.layer.borderColor = UIColor.systemBlue.cgColor
-        questionText.backgroundColor = UIColor(named: "createBG")
+        questionText.layer.borderWidth = 1
+        questionText.layer.borderColor = UIColor.lightGray.cgColor
         questionText.font = .systemFont(ofSize: 20)
         questionText.textColor = .label
         createButton.addTarget(self, action: #selector(createQuestion), for: .touchUpInside)
@@ -107,11 +111,25 @@ class CreateQuestionVC: SpinnerBase
         {
             vm.addNewRow()
             (optionsTable.cellForRow(at: IndexPath(row: vm.options.count-1, section: 0)) as! OptionsTableCell).option.becomeFirstResponder()
+            if vm.options.count == 5
+            {
+                print("kaç kere giriyo")
+                addButton.isHidden = true
+            }
         }
+        
     }
     @objc func createQuestion()
     {
         self.activityIndicatorBegin()
+        view.isUserInteractionEnabled = false
+        if vm.options.count < 2
+        {
+            AlertManager.showOptionCountIsLow(on: self)
+            self.activityIndicatorEnd()
+            view.isUserInteractionEnabled = true
+            return
+        }
         Task
         {
             do
@@ -128,6 +146,8 @@ class CreateQuestionVC: SpinnerBase
             }
             catch
             {
+                view.isUserInteractionEnabled = true
+
                 AlertManager.showQuestionCreationFailed(on: self)
                 self.activityIndicatorEnd()
                 
@@ -154,12 +174,14 @@ extension CreateQuestionVC : UITableViewDelegate , UITextViewDelegate
         {
             let deleteAction = UIContextualAction(style: .destructive, title: "Delete")
             { action, view, handler in
+                self.addButton.isHidden = false
                 self.vm.deleteItemFromDataSource(at: indexPath)
             }
             
             deleteAction.backgroundColor = .red
             let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
             configuration.performsFirstActionWithFullSwipe = true
+            
             return configuration
         }
         else
@@ -171,11 +193,14 @@ extension CreateQuestionVC : UITableViewDelegate , UITextViewDelegate
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     {
-        
+
         if (editingStyle == .delete)
         {
-            vm.deleteItemFromDataSource(at: indexPath)
+           
+
             
+            vm.deleteItemFromDataSource(at: indexPath)
+                
         }
     }
     

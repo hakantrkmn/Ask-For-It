@@ -32,10 +32,16 @@ class SearchUserVC: UIViewController {
         collectionview.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+                // Görünümünüze ekleyin (view veya belirli bir view)
+        tapGesture.cancelsTouchesInView = false
+
+                view.addGestureRecognizer(tapGesture)
         
     }
-    
+    @objc func dismissKeyboard() {
+        searchBar.endEditing(true)
+    }
     @objc func refresh(_ sender: AnyObject) {
         Task{
             try await vm.getAllUsers()
