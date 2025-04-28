@@ -22,6 +22,8 @@ class VisitProfileVC: SpinnerBase
     {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        profileSummary.delegate = self
+
         Task
         {
             self.activityIndicatorBegin()
@@ -49,7 +51,6 @@ class VisitProfileVC: SpinnerBase
             navigationItem.rightBarButtonItem = followButton
         }
         
-        profileSummary.delegate = self
         }
 
         
@@ -160,7 +161,7 @@ class VisitProfileVC: SpinnerBase
 extension VisitProfileVC : ProfileSummaryDelegate , UserListVCDelegate
 {
     func userTapped(userID: String) {
-        
+        print("aksdnşkasd")
         let vc = VisitProfileVC()
         vc.vm.userID = userID
         navigationController?.pushViewController(vc, animated: true)
@@ -173,6 +174,7 @@ extension VisitProfileVC : ProfileSummaryDelegate , UserListVCDelegate
         vc.user = vm.user
         vc.modalPresentationStyle = .formSheet
         vc.listType = .Followed
+        vc.delegate = self
         let navController = UINavigationController(rootViewController: vc)
         navigationController?.present(navController, animated: true)
     }
@@ -182,6 +184,7 @@ extension VisitProfileVC : ProfileSummaryDelegate , UserListVCDelegate
         let vc = UserListVC()
         vc.user = vm.user
         vc.modalPresentationStyle = .formSheet
+        vc.delegate = self
         vc.listType = .Following
         let navController = UINavigationController(rootViewController: vc)
         navigationController?.present(navController, animated: true)

@@ -36,6 +36,7 @@
 		494EBE9F2C55166800814E41 /* SearchUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494EBE9E2C55166800814E41 /* SearchUserVC.swift */; };
 		494EBEA12C55189100814E41 /* SearchUserTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494EBEA02C55189100814E41 /* SearchUserTableCell.swift */; };
 		494EBEA32C55321000814E41 /* SearchUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494EBEA22C55321000814E41 /* SearchUserViewModel.swift */; };
+		494EBED52C5BFFD500814E41 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494EBED42C5BFFD500814E41 /* String+Ext.swift */; };
 		4961822D2BBAD3E90074004A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822C2BBAD3E90074004A /* AppDelegate.swift */; };
 		4961822F2BBAD3E90074004A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4961822E2BBAD3E90074004A /* SceneDelegate.swift */; };
 		496182362BBAD3EA0074004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 496182352BBAD3EA0074004A /* Assets.xcassets */; };
@@ -99,6 +100,7 @@
 		494EBE9E2C55166800814E41 /* SearchUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserVC.swift; sourceTree = "<group>"; };
 		494EBEA02C55189100814E41 /* SearchUserTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserTableCell.swift; sourceTree = "<group>"; };
 		494EBEA22C55321000814E41 /* SearchUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
+		494EBED42C5BFFD500814E41 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		496182292BBAD3E90074004A /* Ask For It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ask For It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4961822C2BBAD3E90074004A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4961822E2BBAD3E90074004A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				49D8B8882BBADAF900B49C46 /* UIViewController+Ext.swift */,
 				49D8B88A2BBADB1700B49C46 /* UIView+Ext.swift */,
 				490ED7042C4C486000657458 /* UIColor+Ext.swift */,
+				494EBED42C5BFFD500814E41 /* String+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				49D8B8AD2BBC3F0300B49C46 /* CreateQuestionVC.swift in Sources */,
 				49D8B88F2BBAE11300B49C46 /* CustomTextField.swift in Sources */,
 				490ED7032C4C330500657458 /* DetailedAnswerView.swift in Sources */,
+				494EBED52C5BFFD500814E41 /* String+Ext.swift in Sources */,
 				490B2F172BEB667C0046B6CA /* ProfileSummaryView.swift in Sources */,
 				49750C492BEBD85A00768B60 /* SpinnerBase.swift in Sources */,
 				49D8B8A52BBB195E00B49C46 /* LoginUserRequest.swift in Sources */,

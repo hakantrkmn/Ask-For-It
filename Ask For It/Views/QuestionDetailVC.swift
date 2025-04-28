@@ -47,6 +47,19 @@ class QuestionDetailVC: UIViewController
         
         detailedAnswerView.delegate = self
         
+        var shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(addTapped))
+        shareButton.tintColor = .systemGreen
+        navigationItem.rightBarButtonItem = shareButton
+        
+    }
+    
+    @objc func addTapped()
+    {
+        guard let url = URL(string: "askforit://details?id=\(vm.questionID)") else {
+                return
+            }
+            let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            present(activityVC, animated: true, completion: nil)
     }
     
     func configure()
